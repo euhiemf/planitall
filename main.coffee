@@ -12,8 +12,11 @@ fs.watch path, ->
 
 
 class GetSet extends Backbone.Model
-	initialize: ->
-		@on 'change', ->
+	initialize: (@model) ->
+
+
+
+		@on 'change', =>
 
 			attrs = @changedAttributes()
 
@@ -44,7 +47,6 @@ class PluginBluepint extends Backbone.Model
 
 		'default-blueprint-properties':
 			navigatable: false
-			imports: new GetSet
 
 		constructor: ->
 
@@ -56,7 +58,7 @@ class PluginBluepint extends Backbone.Model
 
 			dbp.title = "Plugin##{id}"
 			dbp.id = id
-			dbp.imports.model = @
+			dbp.imports = new GetSet(@)
 
 			_.defaults @defaults, dbp
 
@@ -181,13 +183,20 @@ class Plugin extends Backbone.Model
 
 			if Array.isArray(value) then @load(fname, args...) for fname in value else @load(value, args...)
 
+		model.on 'change:loadedAssetsCount', (m, value) =>
+			if value is m.get('assetsLength') then @assetsLoaded(m)
+
+
+
+		if model.get('assetsLength') is 0
+			@assetsLoaded(model)
+
+
 	parseImport: (properties, model) ->
-		model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1)
 		# the script file should at this point have been parsed by the web brwower
 		if Array.isArray(properties) then @import arrdata for arrdata in properties else @import properties
 
-		if model.get('assetsLength') is model.get('loadedAssetsCount')
-			@assetsLoaded(model)
+		model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1)
 
 
 	assetsLoaded: (model) ->
@@ -196,6 +205,8 @@ class Plugin extends Backbone.Model
 
 
 	load: (path, type, model) ->
+
+
 
 
 		# IF xhr loads faster than javascript execution, this code will break
@@ -251,11 +262,10 @@ class Plugin extends Backbone.Model
 
 					app.clearer.add('remove', 'html', values.element)
 
-				model.get('imports').on('loaded:'+path, @parseImport, @)
-
+				model.get('imports').once('loaded:'+path, @parseImport, @)
 
 				if type isnt 'js'
-					model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1)
+					model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
 
 
 

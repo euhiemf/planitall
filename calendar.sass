@@ -1,0 +1,180 @@
+
+@import 'fa'
+@import 'scheme'
+
+
+
+$tile-size: 60px
+
+=navigation-button($direction)
+	+fa(arrow-#{$direction})
+	+item
+	float: $direction
+	width: $tile-size / 2
+	height: $tile-size / 2
+	border-radius: $scheme-border-sharpness
+
+.calendar
+	// border: 1px solid black
+	border-radius: $scheme-border-sharpness
+
+	display: block
+	overflow: hidden
+	width: ($tile-size + 1) * 8 - 2 - $tile-size / 2
+
+	.header
+		text-align: center
+		margin-bottom: 5px
+		font-size: $h3
+		height: $tile-size / 2
+		line-height: 1em
+
+		button:focus
+			outline: none
+
+		button.left
+			+navigation-button(left)
+
+		button.right
+			+navigation-button(right)
+			margin-right: -1px
+
+		button:hover
+			+linkhover
+		
+
+		.header-text:hover
+			+linkhover
+
+		.row-title-header
+			float: right
+			margin: 0
+			width: $tile-size / 2
+			vertical-align: bottom
+			line-height: $tile-size / 2
+			text-indent: 2px
+
+		.row-title-header:hover
+			+linkhover
+
+
+
+	.footer
+		text-align: center
+
+		.tile
+			width: $tile-size
+			height: $tile-size / 2
+			text-align: center
+			float: left
+			border-right: $border
+			line-height: $tile-size / 2
+
+		.tile:first-child
+			border-left: $border
+
+		.tile.last-tile
+			width: $tile-size - 1px
+
+		.tile:hover
+			+linkhover
+
+
+		.settings
+			+fa(gear)
+			float: right
+			width: $tile-size / 2
+			margin-left: -1px
+			height: $tile-size / 2
+			line-height: $tile-size / 2
+			font-size: 1.5em
+			text-indent: 2px
+		.settings:hover
+			+linkhover
+			border-bottom: $border
+			border-right: $border
+			width: $tile-size / 2 - 2px
+
+
+
+	.grid, .header .row-title-header
+		font-size: $tile-size / 3
+
+
+
+	.grid
+
+
+		.row
+
+			clear: both
+
+			.tile
+
+				+item
+
+				border: $border
+
+				float: left
+
+				width: $tile-size
+				height: $tile-size
+
+				line-height: $tile-size
+				text-align: center
+				border-right: none
+
+				border-top: none
+			
+			.tile.disabled
+				color: rgba(255, 255, 255, 0.5)
+
+			.tile.disabled:hover
+				color: rgba(230, 24, 117, 0.5)
+
+			.tile:hover
+				+linkhover
+				// border-bottom-color: $scheme-fourth
+				// border-bottom-width: 2px
+				// height: $tile-size - 1px
+
+			.tile:last-child
+				border-right: $border
+
+			.row-title
+
+				height: $tile-size
+
+				line-height: $tile-size
+
+				border-bottom: $border
+
+				text-align: center
+
+				text-indent: 1px
+
+				// width: $tile-size / 2
+
+			.row-title:hover
+				+linkhover
+
+
+		.row:first-child
+
+			.tile
+				border-top: $border
+
+			.tile:first-child
+				border-top-left-radius: $scheme-border-sharpness
+				
+			.row-title
+				border-top: $border
+
+
+
+
+
+
+
+
+

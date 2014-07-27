@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Planitall</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="calendar.css">
+</head>
+<body>
+
+	<div class="app">
+		
+		<h2 class='title'>planitall</h2>
+
+		<nav class='navigation'>
+			<ul></ul>
+		</nav>
+
+		<div class="content"></div>
+		<div class="plugin"></div>
+
+
+		<!--
+		<script type="text/template" id="todo" class='side' data-title='Todo'>
+
+			<div class="new"><button class="add">Add New</button></div>
+			<ol class='items'></ol>
+
+		</script>
+		-->
+
+		<script type="text/template" id="home" class='side'>
+			this is the homepage!
+		</script>
+
+		<script type="text/template" id="calendar" class='side'>
+			<div class='calendar'>
+				<div class='header'>
+
+					<button class='left'></button>
+
+					<span class='header-text'><%= title %></span>
+
+					<span class='row-title-header'>W</span>
+
+					<button class='right'></button>
+
+
+				</div>
+				<div class='grid'>
+
+					<% for (var h = 0, l, row, tile, type; h < rows.length; h++) { %>
+
+						<% row = rows[h]; %>
+
+						<div class='row'>
+							<% for (l = 0; l < row.cols.length; l++) { %>
+
+								<% tile = row.cols[l]; %>
+
+								<% type = 'tile'; %>
+
+								<% if (tile.attributes.month < month) type += ' prev disabled'; %>
+								<% if (tile.attributes.month > month) type += ' next disabled'; %>
+								<div class='<%= type %>'>
+
+									<span class='value'>
+
+										<%= tile.value %>
+
+									</span>
+
+								</div>
+
+							<% } %>
+
+							<div class='row-title'>
+								<span class='value'>
+									<%= row.title %>
+								</span>
+							</div>
+						</div>
+
+
+					<% } %>
+
+				</div>
+
+				<div class='footer'>
+					<% var days = moment(); %>
+					<% for (var d = 0, cls = 'tile', len = 7; d < len; d++) { %>
+						<% if (d === len - 1) cls += ' last-tile' %>
+						<div class='<%= cls %>'><%= days.weekday(d).format('ddd') %></div>
+					<% } %>
+					<div class='settings'></div>
+				</div>
+			</div>
+		</script>
+
+		<script type="text/template" id="plugins" class='side'>
+			<ol class="plugins">
+				<% for (var i = 0; i < list.length; i++) { %>
+
+					<li><a href="#plugin/view/<%= list[i].id %>"><%= list[i].title %></a></li>
+
+				<% } %>
+			</ol>
+		</script>
+
+
+
+	</div>
+
+	
+	<script src='jquery-min.js'></script>
+	<script src='loading.jquery.js'></script>
+	<script src='underscore-min.js'></script>
+	<script src='backbone-min.js'></script>
+	<script src='backbone.localStorage-min.js'></script>
+
+	<script src='moment.js'></script>
+
+
+	<script src='views/object.js'></script>
+	<script src='models/object.js'></script>
+	<script src='collections/object.js'></script>
+
+
+	<script src='views/home.js'></script>
+	<script src='views/plugins.js'></script>
+	<script src='views/calendar.js'></script>
+
+
+
+
+
+
+
+
+	<script src='main.js'></script>
+
+
+
+	<!-- PLUGINS -->
+	<script src='plugins/todo/todo.js'></script>
+
+	<!-- END PLUGINS -->
+	
+</body>
+</html>

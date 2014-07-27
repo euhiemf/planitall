@@ -1,0 +1,76 @@
+
+@import '../../scheme'
+
+.plugin
+	button
+		font-size: $font-size
+	.items
+		
+		clear: both
+
+		padding: 0
+		margin: 0
+		
+
+		li
+
+			@include item
+
+			padding: 15px
+			border-width: 1px 0 0 0
+
+			list-style-position: inside
+
+			// text-indent: -40px
+
+			button
+				@include item
+				float: right
+				margin-top: -2px
+				cursor: pointer
+
+			
+			$margin-from-index: 30px
+
+			p
+				display: inline-block
+				margin: 0 0 -4px $margin-from-index
+				max-width: -webkit-calc(100% - 160px)
+				overflow: hidden
+				text-overflow: ellipsis
+
+		
+
+			p:focus
+				outline: 0
+				$width: 2px
+				border-bottom: $width solid rgba(255, 255, 255, 0.2)
+				margin-bottom: -$width - 4px
+
+				$padding: 10px
+				padding: 0 $padding 0 $padding
+				margin-left: $margin-from-index - $padding
+
+
+		li::before
+			content: ''
+			padding: 10px
+
+		li:last-of-type
+			border-bottom-right-radius: $scheme-border-sharpness
+			border-bottom-left-radius: $scheme-border-sharpness
+
+	.new
+		border-bottom: 2px solid $scheme-third
+
+		float: right
+
+		button
+			@include item
+			@include navigation
+
+			border-top-left-radius: $scheme-border-sharpness
+			border-top-right-radius: $scheme-border-sharpness
+
+			cursor: pointer
+			outline: 0

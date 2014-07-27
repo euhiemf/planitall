@@ -1,0 +1,84 @@
+
+@import 'scheme'
+
+
+body
+	color: #333
+	font-family: Arial
+	background-color: $scheme-first
+	// font-weight: bold
+	margin: 30px
+	letter-spacing: 2px
+
+
+a
+	@include link
+
+a:hover
+	@include linkhover
+
+
+.title
+	color: $scheme-third
+	font-size: $h1
+	margin: 0
+	margin-bottom: 15px
+
+
+
+
+.navigation
+	
+	border-bottom: 2px solid $scheme-third
+	margin-bottom: 15px
+
+	float: left
+
+	ul
+		margin: 0
+		padding: 0
+
+		li
+
+			@include item
+			@include navigation
+			float: left
+			list-style: none
+			cursor: pointer
+
+
+		li.selected a
+			// border-bottom-color: $scheme-first
+			// font-weight: bold
+			color: $scheme-fourth
+
+
+		li:first-of-type
+			border-top-left-radius: $scheme-border-sharpness
+
+		li:last-of-type
+			border-top-right-radius: $scheme-border-sharpness
+
+		li:hover
+			border-bottom: 2px solid $scheme-fourth
+			margin-bottom: -2px
+
+			a
+				@include linkhover
+
+
+
+.content, .plugin
+	clear: both
+	// padding-top: 15px
+
+
+
+.plugins
+	
+	li
+		@include item
+		@include navigation
+
+		border: $border
+		border-bottom: none

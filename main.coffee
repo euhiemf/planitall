@@ -1,13 +1,15 @@
 
-gui = require 'nw.gui'
+
+if 'global' in this and 'require' in this
+	gui = require 'nw.gui'
 
 
-# LiveReload
-path = './'
-fs = require 'fs'
+	# LiveReload
+	path = './'
+	fs = require 'fs'
 
-fs.watch path, ->
-	location?.reload()
+	fs.watch path, ->
+		location?.reload()
 
 
 
@@ -42,11 +44,13 @@ class PluginBluepint extends Backbone.Model
 	initialize: ->
 		@set 'model', @bpm
 		@set 'view', @bpv
+		@set 'router', @bpr
 
 	bpm: class extends Backbone.Model
 
 		'default-blueprint-properties':
 			navigatable: false
+			submenus: []
 
 		constructor: ->
 
@@ -71,6 +75,37 @@ class PluginBluepint extends Backbone.Model
 
 	bpv: class extends Backbone.View
 		el: '.plugin'
+
+
+	bpr: class extends Backbone.Router
+
+		constructor: ->
+
+			# clear constructor prototype
+			model = @model
+			@model = model
+
+
+
+
+
+			fullurlroute = {}
+
+			baseurl = 'plugin/view/' + @model.get('id') + '/'
+
+			for key, val of @routes
+				fullurlroute[baseurl + key.replace(/(^(\.\/))|(^(\/))/, '')] = val
+
+
+			@routes = _.clone fullurlroute
+
+
+
+
+
+			Backbone.Router.apply @, arguments
+
+
 
 
 
@@ -118,6 +153,7 @@ class Plugin extends Backbone.Model
 		@collection.add instance
 
 		view: @view
+		router: @router
 		model: instance
 
 	view: (view) ->
@@ -143,7 +179,26 @@ class Plugin extends Backbone.Model
 		model.view = instance
 		model.view.model = model
 
+		view: @view
+		router: @router
+		model: model
 
+	router: (router) ->
+
+
+		router::model = @model
+
+		rinstance = new router
+
+		delete router::model
+
+
+		@model.router = rinstance
+
+
+		view: @view
+		router: @router
+		model: @model
 
 	memorize: (model) ->
 
@@ -157,8 +212,9 @@ class Plugin extends Backbone.Model
 
 	preRender: (model) ->
 
-		$('.plugin').loading().hide()
 		app.clearer.clear()
+
+		$('.plugin').loading().hide()
 
 		@loadAssets model
 
@@ -313,10 +369,14 @@ class Navigation extends Backbone.View
 		app.get('plugin').on('new:navigatable', @addPluginItem, @)
 
 	events:
-		'click li': (ev) ->
-			if ev.target.tagName is 'LI'
-				window.location.hash = $(ev.currentTarget).find('a').attr('href').substr(1)
+		'click .submenual': 'liclick'
+		'click .nosubmenu': 'liclick'
 
+	liclick: (ev) ->
+		if ev.target.tagName is 'LI'
+			window.location.hash = $(ev.target).children('a').eq(0).attr('href').substr(1)
+
+		
 	select: (page, params) ->
 
 		params = _.without params, null
@@ -335,11 +395,15 @@ class Navigation extends Backbone.View
 
 		el.addClass('selected')
 
+	menutemplate: _.template $('#menu-item.navigational').html()
+
 	addItem: (attrs) ->
 
 		attrs.link ?= attrs.id
 
-		@$('ul').append("<li data-id='#{attrs.id}'><a href='##{attrs.link}'>#{attrs.title}</a></li>")
+		attrs.haveSubMenu = attrs.hasOwnProperty('submenus') and attrs.submenus.length > 0
+
+		@$('ul.main-navigation').append @menutemplate(attrs)
 
 	addPluginItem: (model) ->
 
@@ -347,6 +411,7 @@ class Navigation extends Backbone.View
 			id: 'plugin-' + model.get('id')
 			title: model.get('title')
 			link: 'plugin/view/' + model.get('id')
+			submenus: model.get('submenus')
 
 
 

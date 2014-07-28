@@ -2,13 +2,22 @@
 (function() {
   (function($) {
     return $.fn.loading = function(enable) {
-      var key, offset, style, styleJSON, val;
+      var additional, element, key, offset, style, styleJSON, val;
       if (enable == null) {
         enable = true;
       }
       if (enable) {
         this.css('visibility', 'hidden');
         offset = this.offset();
+        additional = {};
+        if (offset.top === 0) {
+          offset.top = window.innerHeight / 2;
+        }
+        if (offset.left === 0) {
+          offset.left = window.innerWidth / 2;
+          additional['margin-left'] = "-45px";
+          additional['margin-top'] = "0";
+        }
         styleJSON = {
           'position': 'absolute',
           'top': "" + offset.top + "px",
@@ -18,12 +27,15 @@
           'text-align': 'center',
           'display': 'table'
         };
+        _.extend(styleJSON, additional);
         style = "";
         for (key in styleJSON) {
           val = styleJSON[key];
           style += "" + key + ": " + val + "; ";
         }
-        $(document.body).append("\n<div style=\"" + style + "\" class='loading-overlay'>\n	<p style='display: table-cell'>\n		Loading...\n	</p>\n</div>\n");
+        element = $("\n<div style=\"" + style + "\" class='loading-overlay'>\n	<p style='display: table-cell'>\n		Loading...\n	</p>\n</div>\n");
+        $(document.body).append(element);
+        app.clearer.add('remove', 'html', element);
       } else {
         $('.loading-overlay').remove();
         this.css('visibility', 'visible');

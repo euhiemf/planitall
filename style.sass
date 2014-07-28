@@ -1,5 +1,6 @@
 
 @import 'scheme'
+@import 'fa'
 
 
 body
@@ -66,6 +67,54 @@ a:hover
 			a
 				@include linkhover
 
+		li.submenual:before
+			+fa(caret-down)
+			float: right
+			margin-left: 5px
+
+
+		li.submenual .sub-menu
+			display: none
+			position: absolute
+			margin-top: $navigation-padding + 2px
+			margin-left: -$navigation-padding
+			box-shadow: 0 6px 12px rgba(0,0,0,.175)
+
+
+		li.selected.submenual:before
+			color: $scheme-fourth
+
+		
+		li.submenual:hover:before
+			+linkhover
+
+		
+
+
+
+		li.submenual:hover .sub-menu
+			display: block
+
+
+		li.submenual .sub-menu li
+			float: none
+			border-radius: 0
+			border-bottom: $border
+			border-right: 2px solid $scheme-third
+
+			a
+				@include link
+
+		li.submenual .sub-menu li:last-of-type
+			border-bottom: none
+			border-bottom-right-radius: $scheme-border-sharpness
+			border-bottom-left-radius: $scheme-border-sharpness
+
+		li.submenual:hover .sub-menu li:hover
+			margin-bottom: 0px
+			border-right-color: $scheme-fourth
+			a
+				@include linkhover
 
 
 .content, .plugin

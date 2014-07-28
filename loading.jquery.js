@@ -24,6 +24,7 @@
           'left': "" + offset.left + "px",
           'width': "" + (this.outerWidth()) + "px",
           'height': "" + (this.outerHeight()) + "px",
+          'z-index': '100',
           'text-align': 'center',
           'display': 'table'
         };

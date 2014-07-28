@@ -35,12 +35,13 @@
 
 		<script type="text/template" id='menu-item' class='navigational'>
 
-
-			<li data-id='<%= id %>'<% if (haveSubMenu) print(' class="submenual" '); else print(' class="nosubmenu" ') %>><a href='#<%= link %>'><%= title %></a><% if (haveSubMenu) { %>
+			<% link = stripLink(link) %>
+			<li data-selectable-id='<%= link %>' class='selectable<% if (haveSubMenu) print(' submenual'); else print(' nosubmenu') %>'><a href='#<%= link %>'><%= title %></a><% if (haveSubMenu) { %>
 
 				<ul class='sub-menu'>
-					<% for (var i = 0; i < submenus.length; i++) { %>
-						<li data-id='<%= id %>'><a href='#<%= link %>/<%= submenus[i].link.replace(/(^(\.\/))|(^(\/))/, '') %>'><%= submenus[i].title %></a></li>
+					<% for (var i = 0, sublink; i < submenus.length; i++) { %>
+						<% sublink = link + '/' + stripLink(submenus[i].link); %>
+						<li data-selectable-id='<%= sublink %>' class='selectable'><a href='#<%= sublink %>'><%= submenus[i].title %></a></li>
 					<% } %>
 				</ul>
 

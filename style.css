@@ -1607,6 +1607,7 @@ a:hover {
     .navigation ul li.submenual .sub-menu {
       display: none;
       position: absolute;
+      z-index: 500;
       margin-top: 17px;
       margin-left: -15px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); }
@@ -1635,6 +1636,8 @@ a:hover {
       .navigation ul li.submenual:hover .sub-menu li:hover a {
         color: #e61875;
         cursor: pointer; }
+    .navigation ul li.submenual .sub-menu li.selected a {
+      color: black; }
 
 .content, .plugin {
   clear: both; }

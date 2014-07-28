@@ -71,6 +71,18 @@
       return this.set('router', this.bpr);
     };
 
+    PluginBluepint.prototype.render = function(context) {
+      return (function(context) {
+        return function() {
+          var args, func;
+          func = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+          app.clearer.clear();
+          func.apply(context, args);
+          return app.clearer.add('unset', 'html', '.plugin');
+        };
+      })(context);
+    };
+
     PluginBluepint.prototype.bpm = (function(_super1) {
       __extends(_Class, _super1);
 
@@ -124,6 +136,8 @@
           fullurlroute[baseurl + key.replace(/(^(\.\/))|(^(\/))/, '')] = val;
         }
         this.routes = _.clone(fullurlroute);
+        this.on('route', function() {});
+        this.on('route', app.get('navigation').select);
         Backbone.Router.apply(this, arguments);
       }
 
@@ -374,6 +388,7 @@
     __extends(Navigation, _super);
 
     function Navigation() {
+      this.select = __bind(this.select, this);
       return Navigation.__super__.constructor.apply(this, arguments);
     }
 
@@ -395,18 +410,13 @@
     };
 
     Navigation.prototype.select = function(page, params) {
-      var el, first, last;
+      var el, url;
       params = _.without(params, null);
-      this.$('ul li').each(function() {
+      this.$('ul li.selectable').each(function() {
         return $(this).removeClass('selected');
       });
-      first = params[0], last = params[params.length - 1];
-      if (page === 'plugins' && first === 'view') {
-        page = 'plugin-' + last;
-      } else {
-        $('.plugin').html('');
-      }
-      el = this.$("li[data-id='" + page + "']");
+      url = location.hash.slice(1);
+      el = this.$("li.selectable[data-selectable-id='" + url + "']");
       return el.addClass('selected');
     };
 
@@ -416,6 +426,9 @@
       if (attrs.link == null) {
         attrs.link = attrs.id;
       }
+      attrs.stripLink = function(st) {
+        return st.replace(/(^(\.\/))|(^(\/))/, '').replace(/(\/)$/, '');
+      };
       attrs.haveSubMenu = attrs.hasOwnProperty('submenus') && attrs.submenus.length > 0;
       return this.$('ul.main-navigation').append(this.menutemplate(attrs));
     };
@@ -582,7 +595,8 @@
       'calendar': 'calendar',
       'plugins': 'plugins',
       'plugin/:action/:id': 'plugins',
-      '*anything': 'home'
+      'home': 'home',
+      '*anything': 'gohome'
     };
 
     Router.prototype['calendar'] = function() {
@@ -598,6 +612,10 @@
       } else if (action === 'view') {
         return app.get('plugin').get(id).view.render();
       }
+    };
+
+    Router.prototype['gohome'] = function() {
+      return this.navigate('home');
     };
 
     Router.prototype['home'] = function() {

@@ -1555,7 +1555,7 @@
   border-radius: 2px;
   display: block;
   overflow: hidden;
-  width: 456px; }
+  width: 467px; }
   .calendar .header {
     text-align: center;
     margin-bottom: 5px;
@@ -1579,8 +1579,7 @@
       float: right;
       width: 30px;
       height: 30px;
-      border-radius: 2px;
-      margin-right: -1px; }
+      border-radius: 2px; }
     .calendar .header button:hover {
       color: #e61875;
       cursor: pointer; }
@@ -1590,7 +1589,7 @@
     .calendar .header .row-title-header {
       float: right;
       margin: 0;
-      width: 30px;
+      width: 40px;
       vertical-align: bottom;
       line-height: 30px;
       text-indent: 2px; }
@@ -1615,10 +1614,10 @@
       cursor: pointer; }
     .calendar .footer .settings {
       float: right;
-      width: 30px;
+      width: 40px;
       margin-left: -1px;
       height: 30px;
-      line-height: 30px;
+      line-height: 31px;
       font-size: 1.5em;
       text-indent: 2px; }
     .calendar .footer .settings:hover {
@@ -1626,7 +1625,7 @@
       cursor: pointer;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       border-right: 1px solid rgba(0, 0, 0, 0.1);
-      width: 28px; }
+      width: 38px; }
   .calendar .grid, .calendar .header .row-title-header {
     font-size: 20px; }
   .calendar .grid .row {
@@ -1656,8 +1655,7 @@
       height: 60px;
       line-height: 60px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      text-align: center;
-      text-indent: 1px; }
+      text-align: center; }
     .calendar .grid .row .row-title:hover {
       color: #e61875;
       cursor: pointer; }

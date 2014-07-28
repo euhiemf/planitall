@@ -23,10 +23,10 @@ class TaskView extends Plugin.Blueprint.get('view')
 	render: ->
 		@$el.html('<h2>Task main</h2>')
 
-	renderList: ->
-		@$el.html('<h2>Task list</h2>')
+	renderList: (what) -> Plugin.Blueprint.render(@) ->
+		@$el.html("<h2>Task #{what}</h2>")
 
-	renderNew: ->
+	renderNew: -> Plugin.Blueprint.render(@) ->
 		@$el.html('<h2>Task new</h2>')
 
 
@@ -37,7 +37,7 @@ class TaskRouter extends Plugin.Blueprint.get('router')
 		'new': 'render-new'
 
 	'render-list': ->
-		Plugin.get('task').view.renderList()
+		Plugin.get('task').view.renderList('list!!!')
 
 	'render-new': ->
 		Plugin.get('task').view.renderNew()

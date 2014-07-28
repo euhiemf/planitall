@@ -43,12 +43,16 @@
       return this.$el.html('<h2>Task main</h2>');
     };
 
-    TaskView.prototype.renderList = function() {
-      return this.$el.html('<h2>Task list</h2>');
+    TaskView.prototype.renderList = function(what) {
+      return Plugin.Blueprint.render(this)(function() {
+        return this.$el.html("<h2>Task " + what + "</h2>");
+      });
     };
 
     TaskView.prototype.renderNew = function() {
-      return this.$el.html('<h2>Task new</h2>');
+      return Plugin.Blueprint.render(this)(function() {
+        return this.$el.html('<h2>Task new</h2>');
+      });
     };
 
     return TaskView;
@@ -68,7 +72,7 @@
     };
 
     TaskRouter.prototype['render-list'] = function() {
-      return Plugin.get('task').view.renderList();
+      return Plugin.get('task').view.renderList('list!!!');
     };
 
     TaskRouter.prototype['render-new'] = function() {

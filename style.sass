@@ -76,6 +76,7 @@ a:hover
 		li.submenual .sub-menu
 			display: none
 			position: absolute
+			z-index: 500
 			margin-top: $navigation-padding + 2px
 			margin-left: -$navigation-padding
 			box-shadow: 0 6px 12px rgba(0,0,0,.175)
@@ -84,7 +85,7 @@ a:hover
 		li.selected.submenual:before
 			color: $scheme-fourth
 
-		
+
 		li.submenual:hover:before
 			+linkhover
 
@@ -105,6 +106,7 @@ a:hover
 			a
 				@include link
 
+
 		li.submenual .sub-menu li:last-of-type
 			border-bottom: none
 			border-bottom-right-radius: $scheme-border-sharpness
@@ -116,6 +118,8 @@ a:hover
 			a
 				@include linkhover
 
+		li.submenual .sub-menu li.selected a
+			color: $scheme-fourth
 
 .content, .plugin
 	clear: both

@@ -46,6 +46,15 @@ class PluginBluepint extends Backbone.Model
 		@set 'view', @bpv
 		@set 'router', @bpr
 
+
+	render: (context) ->
+
+		do (context) -> (func, args...) ->
+			app.clearer.clear()
+			func.apply(context, args)
+			app.clearer.add('unset', 'html', '.plugin')
+
+
 	bpm: class extends Backbone.Model
 
 		'default-blueprint-properties':
@@ -86,9 +95,6 @@ class PluginBluepint extends Backbone.Model
 			@model = model
 
 
-
-
-
 			fullurlroute = {}
 
 			baseurl = 'plugin/view/' + @model.get('id') + '/'
@@ -98,6 +104,12 @@ class PluginBluepint extends Backbone.Model
 
 
 			@routes = _.clone fullurlroute
+
+
+			@on 'route', ->
+				# app.clearer.clear()
+
+			@on 'route', app.get('navigation').select
 
 
 
@@ -377,21 +389,17 @@ class Navigation extends Backbone.View
 			window.location.hash = $(ev.target).children('a').eq(0).attr('href').substr(1)
 
 		
-	select: (page, params) ->
+	select: (page, params) =>
 
 		params = _.without params, null
 
-		@$('ul li').each ->
+		@$('ul li.selectable').each ->
 			$(@).removeClass('selected')
 
-		[first, ..., last] = params
 
-		if page is 'plugins' and first is 'view'
-			page = 'plugin-' + last
-		else
-			$('.plugin').html('')
+		url = location.hash.slice(1)
 
-		el = @$("li[data-id='#{page}']")
+		el = @$("li.selectable[data-selectable-id='#{url}']")
 
 		el.addClass('selected')
 
@@ -400,6 +408,9 @@ class Navigation extends Backbone.View
 	addItem: (attrs) ->
 
 		attrs.link ?= attrs.id
+
+		attrs.stripLink = (st) ->
+			return st.replace(/(^(\.\/))|(^(\/))/, '').replace(/(\/)$/, '')
 
 		attrs.haveSubMenu = attrs.hasOwnProperty('submenus') and attrs.submenus.length > 0
 
@@ -530,7 +541,8 @@ class Router extends Backbone.Router
 		'calendar': 'calendar'
 		'plugins': 'plugins'
 		'plugin/:action/:id': 'plugins'
-		'*anything': 'home'
+		'home': 'home'
+		'*anything': 'gohome'
 
 	'calendar': ->
 
@@ -543,6 +555,10 @@ class Router extends Backbone.Router
 
 		else if action is 'view'
 			app.get('plugin').get(id).view.render()
+
+	'gohome': ->
+		@navigate 'home'
+
 
 	'home': ->
 

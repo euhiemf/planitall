@@ -342,12 +342,19 @@ class Plugin extends Backbone.Model
 
 				app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
 
+			error: do (model) -> (jqXHR, status, error) ->
+				# model.set 'assetsLength', model.get('assetsLength') - 1
+				$('.plugin').loading(false).show()
+				throw new Error(error)
+
+
 
 			url: "./plugins/#{id}/#{path}"
 			context: @
 			dataType: parse.dataType
 			isLocal: true
 			cache: false
+			crossDomain: true
 
 
 

@@ -1642,12 +1642,28 @@ a:hover {
 .content, .plugin {
   clear: both; }
 
-.plugins li {
-  color: white;
-  background-color: #f9b24f;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  margin: 0;
-  border-width: 0 1px 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: none; }
+.plugins {
+  list-style: none; }
+  .plugins li {
+    color: white;
+    background-color: #f9b24f;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 0;
+    border-width: 0 1px 0 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: none;
+    padding: 0 15px; }
+    .plugins li p {
+      display: inline-block; }
+    .plugins li button {
+      color: white;
+      background-color: #f9b24f;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      float: right;
+      margin-top: -2px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 14px; }
+    .plugins li button:focus {
+      outline: none; }

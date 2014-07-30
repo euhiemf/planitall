@@ -32,11 +32,34 @@ class GetSet extends Backbone.Model
 
 
 
+class PluginsSetting extends Backbone.Model
+
+	initialize: ->
+		@on 'change', =>
+			@save()
+
+		@on 'change:active', =>
+			@collection.trigger 'toggle-active', @
 
 
 class Plugins extends Backbone.Collection
 
+	localStorage: new Store('plugins-settings')
+
+	model: PluginsSetting
+
 	initialize: ->
+		@fetch()
+
+
+	add: (model, options) ->
+
+		filter =
+			id: model.get('id')
+			title: model.get('title')
+			active: true
+
+		Backbone.Collection::add.call this, filter, options
 
 
 class PluginBluepint extends Backbone.Model
@@ -151,12 +174,18 @@ class Plugin extends Backbone.Model
 
 		@collection = new Plugins
 
-		@collection.on('add', @memorize, @)
 
-		@on('pre-render', @preRender, @)
-		@on('post-render', @postRender, @)
+		@on 'pre-render', @preRender, @
+		@on 'post-render', @postRender, @
+
+		@collection.on 'toggle-active', (model) =>
+			# this model is of type PluginsSetting
+			@triggerNav @get(model.get('id'))
 
 
+
+	getSettings: (model) =>
+		@collection.findWhere({ id: model.get('id') })
 
 	new: (model) ->
 
@@ -164,11 +193,14 @@ class Plugin extends Backbone.Model
 
 		@collection.add instance
 
+		@memorize(instance)
+
 		view: @view
 		router: @router
 		model: instance
 
 	view: (view) ->
+
 
 		model = @model
 
@@ -218,8 +250,16 @@ class Plugin extends Backbone.Model
 
 		@set(id, model)
 
+		@triggerNav(model)
+
+	triggerNav: (model) ->
+
 		ev = 'new'
 		if model.get('navigatable') then ev += ':navigatable'
+		if @getSettings(model).get('active') is false then ev += ':inactive'
+
+		console.log ev
+
 		@trigger(ev, model)
 
 	preRender: (model) ->
@@ -386,6 +426,7 @@ class Navigation extends Backbone.View
 	initialize: ->
 
 		app.get('plugin').on('new:navigatable', @addPluginItem, @)
+		app.get('plugin').on('new:navigatable:inactive', @removePluginItem, @)
 
 	events:
 		'click .submenual': 'liclick'
@@ -423,10 +464,13 @@ class Navigation extends Backbone.View
 
 		@$('ul.main-navigation').append @menutemplate(attrs)
 
+	removePluginItem: (model) ->
+		@$("#nav-plugin-#{model.get('id')}").remove()
+
 	addPluginItem: (model) ->
 
 		@addItem
-			id: 'plugin-' + model.get('id')
+			id: 'nav-plugin-' + model.get('id')
 			title: model.get('title')
 			link: 'plugin/view/' + model.get('id')
 			submenus: model.get('submenus')

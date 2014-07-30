@@ -32,7 +32,19 @@
       return app.get('plugin').on('new', this.listplugin);
     };
 
-    Plugins.prototype.listplugin = function(model) {};
+    Plugins.prototype.events = {
+      'click .toggle-state': function(ev) {
+        var el, id, new_status, settings;
+        el = $(ev.currentTarget);
+        id = el.data('for');
+        settings = app.get('plugin').collection.findWhere({
+          id: id
+        });
+        new_status = !settings.get('active');
+        settings.set('active', new_status);
+        return el.html(new_status ? 'Inactivate' : 'Activate');
+      }
+    };
 
     return Plugins;
 

@@ -24,6 +24,16 @@ class View.Plugins extends Backbone.View
 		app.get('plugin').on 'new', @listplugin
 
 
-	listplugin: (model) ->
 
-		# console.log(model.get('name'))
+	events:
+		'click .toggle-state': (ev) ->
+			el = $ ev.currentTarget
+			id = el.data 'for'
+
+			settings = app.get('plugin').collection.findWhere({ id: id })
+			new_status = !settings.get('active')
+
+			settings.set 'active', new_status
+
+			el.html if new_status then 'Inactivate' else 'Activate'
+

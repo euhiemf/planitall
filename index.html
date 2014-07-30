@@ -36,7 +36,7 @@
 		<script type="text/template" id='menu-item' class='navigational'>
 
 			<% link = stripLink(link) %>
-			<li data-selectable-id='<%= link %>' class='selectable<% if (haveSubMenu) print(' submenual'); else print(' nosubmenu') %>'><a href='#<%= link %>'><%= title %></a><% if (haveSubMenu) { %>
+			<li id="<%= id %>" data-selectable-id='<%= link %>' class='selectable<% if (haveSubMenu) print(' submenual'); else print(' nosubmenu') %>'><a href='#<%= link %>'><%= title %></a><% if (haveSubMenu) { %>
 
 				<ul class='sub-menu'>
 					<% for (var i = 0, sublink; i < submenus.length; i++) { %>
@@ -115,13 +115,13 @@
 		</script>
 
 		<script type="text/template" id="plugins" class='side'>
-			<ol class="plugins">
+			<ul class="plugins">
 				<% for (var i = 0; i < list.length; i++) { %>
 
-					<li><a href="#plugin/view/<%= list[i].id %>"><%= list[i].title %></a></li>
+					<li><p><a href="#plugin/view/<%= list[i].id %>"><%= list[i].title %></a></p><button class='toggle-state' data-for="<%= list[i].id %>"><%= list[i].active ? 'Inactivate' : 'Activate' %></button></li>
 
 				<% } %>
-			</ol>
+			</ul>
 		</script>
 
 

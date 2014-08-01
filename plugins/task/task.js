@@ -43,15 +43,15 @@
       return this.$el.html('<h2>Task main</h2>');
     };
 
-    TaskView.prototype.renderList = function(what) {
+    TaskView.prototype.renderList = function() {
       return Plugin.Blueprint.render(this)(function() {
-        return this.$el.html("<h2>Task " + what + "</h2>");
+        return this.$el.html('<h2>Task new</h2>');
       });
     };
 
     TaskView.prototype.renderNew = function() {
       return Plugin.Blueprint.render(this)(function() {
-        return this.$el.html('<h2>Task new</h2>');
+        return this.$el.html("\n<h2>Add a new task</h2>\n\n<form>\n\n	<div class=\"input-box\">\n		<label class='input-title before'>Start from</label>\n		<input class='text' type='text'>\n		<button class='button dateselect after'></button>\n	</div>\n\n	<div class=\"input-box\">\n		<label class='input-title before'>End at</label>\n		<input class='text' type='text'>\n		<button class='button dateselect after'></button>\n	</div>\n\n\n	<div class=\"combo-box\">\n		<label class='input-title before'>Type</label>\n		<input class='text' type='text'>\n		<button class='button dateselect after'></button>\n		<ul class='options'>\n			<li class='option'>Read</li>\n			<li class='option'>Study</li>\n			<li class='option'>Do</li>\n			<li class='separator'></li>\n			<li class='option'>Add more...</li>\n		</ul>\n	</div>\n\n\n</form>\n");
       });
     };
 
@@ -72,7 +72,7 @@
     };
 
     TaskRouter.prototype['render-list'] = function() {
-      return Plugin.get('task').view.renderList('list!!!');
+      return Plugin.get('task').view.renderList();
     };
 
     TaskRouter.prototype['render-new'] = function() {

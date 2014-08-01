@@ -126,6 +126,71 @@ a:hover
 	// padding-top: 15px
 
 
+form
+	*:focus
+		outline: 0
+
+	$input-height: 40px
+
+	.input-box
+		margin: 10px 0 
+		display: flex
+		justify-content: center
+		flex-direction: row
+		height: $input-height
+
+		.before, .text, .after
+			margin: 0
+			height: 100%
+			box-sizing: border-box
+			padding: 0 5px
+
+		.before
+			border: $border
+			border-width: 1px 0 1px 1px
+			background-color: $scheme-second
+			margin: 0
+			border-top-left-radius: $scheme-border-sharpness
+			border-bottom-left-radius: $scheme-border-sharpness
+			color: $scheme-first
+			line-height: $input-height
+
+		.input-title
+			flex-shrink: 0
+
+
+		.text
+			width: 100%
+			font-size: $font-size
+
+
+		.text, .button
+			border: $border
+			border-width: 1px 0
+
+		.button
+			+fa(arrow-right)
+			background-color: $scheme-second
+			color: $scheme-first
+			width: 25px
+			text-align: center
+			border-width: 1px 1px 1px 0
+			cursor: pointer
+
+		.text:focus
+			border-bottom: 2px solid $scheme-third
+
+		.after
+			border-top-right-radius: $scheme-border-sharpness
+			border-bottom-right-radius: $scheme-border-sharpness
+
+		.button.dateselect
+			+fa(calendar)
+
+
+
+
+
 
 .plugins
 

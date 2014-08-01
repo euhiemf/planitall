@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<title>Planitall</title>
 	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="calendar.css">
 </head>
 <body>
 
@@ -36,7 +35,7 @@
 		<script type="text/template" id='menu-item' class='navigational'>
 
 			<% link = stripLink(link) %>
-			<li id="<%= id %>" data-selectable-id='<%= link %>' class='selectable<% if (haveSubMenu) print(' submenual'); else print(' nosubmenu') %>'><a href='#<%= link %>'><%= title %></a><% if (haveSubMenu) { %>
+			<li id="<%= id %>" data-selectable-id='<%= link %>' data-index='<%= index %>' class='selectable<% if (haveSubMenu) print(' submenual'); else print(' nosubmenu') %>'><a href='#<%= link %>'><%= title %></a><% if (haveSubMenu) { %>
 
 				<ul class='sub-menu'>
 					<% for (var i = 0, sublink; i < submenus.length; i++) { %>
@@ -50,7 +49,7 @@
 
 		</script>
 
-		<script type="text/template" id="calendar" class='side'>
+		<script type="text/template" id="calendar">
 			<div class='calendar'>
 				<div class='header'>
 
@@ -136,7 +135,7 @@
 	<script src='backbone.localStorage-min.js'></script>
 	<script src='moment.js'></script>
 	
-	<script src='loading.jquery.js'></script>
+	<script src='functions.jquery.js'></script>
 
 
 
@@ -147,7 +146,6 @@
 
 	<script src='views/home.js'></script>
 	<script src='views/plugins.js'></script>
-	<script src='views/calendar.js'></script>
 
 
 
@@ -161,6 +159,7 @@
 
 
 	<!-- PLUGINS -->
+	<script src='plugins/calendar/calendar.js'></script>
 	<script src='plugins/todo/todo.js'></script>
 	<script src='plugins/task/task.js'></script>
 

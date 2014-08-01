@@ -13,7 +13,7 @@ if 'global' in this and 'require' in this
 
 
 
-class GetSet extends Backbone.Model
+class PluginScriptImport extends Backbone.Model
 	initialize: (@model) ->
 
 
@@ -94,7 +94,7 @@ class PluginBluepint extends Backbone.Model
 
 			dbp.title = "Plugin##{id}"
 			dbp.id = id
-			dbp.imports = new GetSet(@)
+			dbp.imports = new PluginScriptImport(@)
 
 			_.defaults @defaults, dbp
 
@@ -312,86 +312,101 @@ class Plugin extends Backbone.Model
 		$('.plugin').loading(false).show()
 
 
+	loadfuncs:
+		js: (data, id, type, path, model) ->
+
+			blob = new Blob [data], 
+				type: 'text/javascript' 
+
+			url = URL.createObjectURL(blob)
+
+			element = $ "<script type='text/javascript' src='#{url}' id='plugin-script##{id}'></script>"
+
+			$.ajaxSetup({ cache: true })
+			$('head').append element
+			$.ajaxSetup({ cache: false })
+
+			app.clearer.add('remove', 'html', element)
+
+			model.get('imports').once 'loaded:' + path, @parseImport, @
+
+			@localAssets[type][path] = element
+
+			app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
+
+		stylesheet: (data, id, type, path, model) ->
+			blob = new Blob [data], 
+				type: 'text/css'
+
+
+			url = URL.createObjectURL(blob)
+
+			element = $ "<link rel='stylesheet' href='#{url}' id='plugin-stylesheet##{id}'>"
+
+			$.ajaxSetup({ cache: true })
+			$('head').append element
+			$.ajaxSetup({ cache: false })
+
+			app.clearer.add('remove', 'html', element)
+
+
+			@localAssets[type][path] = element
+
+			app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
+
+
+			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
+
+		image: (data, id, type, path, model) ->
+
+			ext = path.split('.')
+			ext = ext[ext.length - 1].toLowerCase()
+
+			blob = new Blob [data], 
+				type: 'image/' + ext
+
+			url = URL.createObjectURL(blob)
+
+
+			@localAssets[type][path] = url
+
+			app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
+
+
+			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
+
+		template: (data, id, type, path, model) ->
+
+			@localAssets[type][path] = _.template(data)
+
+			app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
+
+			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
+
 	load: (path, type, model) ->
-
-
 
 
 		# IF xhr loads faster than javascript execution, this code will break
 		model.set('assetsLength', model.get('assetsLength') + 1)
 
-
-		ext = path.split('.')
-		ext = ext[ext.length - 1].toLowerCase()
-
-		types_parse =
-			'js':
-				dataType: 'text'
-				mime: 'text/javascript'
-				parent: 'head'
-				template: _.template("<script type='text/javascript' src='<%= url %>' id='plugin-script#<%= id %>'></script>")
-				return: 'element'
-			'stylesheet':
-				dataType: 'text'
-				mime: 'text/css'
-				parent: 'head'
-				template: _.template("<link rel='stylesheet' href='<%= url %>' id='plugin-stylesheet#<%= id %>'>")
-				return: 'element'
-			'image':
-				dataType: ''
-				mime: 'image/' + ext
-				parent: null
-				return: 'url'
-
-
-		parse = types_parse[type]
-
 		id = model.get('id')
 
 		xhr = $.ajax
-			success: do (path, id, model, type, parse) => (data, status, jqXHR) =>
-				blob = new Blob [data], 
-					type: parse.mime
+			success: do (path, id, model, type) => (data, status, jqXHR) =>
 
-				values =
-					id: id
+				@loadfuncs[type].call @, data, id, type, path, model
 
-				values.url = URL.createObjectURL(blob)
-
-				if parse.parent
-
-					html = parse.template(values)
-
-					values.element = $ html
-
-					$.ajaxSetup({ cache: true })
-					$(parse.parent).append values.element
-					$.ajaxSetup({ cache: false })
-
-					app.clearer.add('remove', 'html', values.element)
-
-				model.get('imports').once('loaded:'+path, @parseImport, @)
-
-				if type isnt 'js'
-					model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
-
-
-
-
-				@localAssets[type][path] = values[parse.return]
-
-				app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
 
 			error: do (model) -> (jqXHR, status, error) ->
 				# model.set 'assetsLength', model.get('assetsLength') - 1
 				$('.plugin').loading(false).show()
-				throw new Error(error)
+				throw new Error("./plugins/#{id}/#{path}")
 
 
 
 			url: "./plugins/#{id}/#{path}"
 			context: @
-			dataType: parse.dataType
+			dataType: 'text'
 			isLocal: true
 			cache: false
 			crossDomain: true
@@ -456,6 +471,7 @@ class Navigation extends Backbone.View
 	addItem: (attrs) ->
 
 		attrs.link ?= attrs.id
+		attrs.index ?= $('.selectable.nosubmenu, .selectable.submenual').last().data('index') + 1
 
 		attrs.stripLink = (st) ->
 			return st.replace(/(^(\.\/))|(^(\/))/, '').replace(/(\/)$/, '')
@@ -488,7 +504,6 @@ class Views extends Backbone.Model
 
 		@set 'home', new View.Home
 		@set 'plugins', new View.Plugins
-		@set 'calendar', new View.Calendar
 
 		for name, view of @attributes
 			ref = view.render or null
@@ -589,15 +604,10 @@ class Router extends Backbone.Router
 
 
 	routes:
-		'calendar': 'calendar'
 		'plugins': 'plugins'
 		'plugin/:action/:id': 'plugins'
 		'home': 'home'
 		'*anything': 'gohome'
-
-	'calendar': ->
-
-		app.get('views').get('calendar').render()
 
 	'plugins': (action = false, id) ->
 
@@ -652,6 +662,7 @@ class AppView extends Backbone.View
 		app.get('navigation').addItem
 			id: id
 			title: if elm.dataset.hasOwnProperty('title') then elm.dataset.title else id.substr(0, 1).toUpperCase() + id.substr(1)
+			index: index
 
 
 

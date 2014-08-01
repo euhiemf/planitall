@@ -18,7 +18,8 @@
       title: 'Calendar',
       navigatable: true,
       assets: {
-        'stylesheet': 'calendar.css'
+        'stylesheet': 'calendar.css',
+        'template': 'calendar.template.html'
       }
     };
 
@@ -33,9 +34,16 @@
       return CalendarView.__super__.constructor.apply(this, arguments);
     }
 
-    CalendarView.prototype.template = _.template($('#calendar').html());
-
     CalendarView.prototype.render = function() {
+      return this.listenToOnce(this.model, 'assetsLoaded', (function(_this) {
+        return function() {
+          _this.template = Plugin.getAsset('template', 'calendar.template.html');
+          return _this.printCalendar();
+        };
+      })(this));
+    };
+
+    CalendarView.prototype.printCalendar = function() {
       var content, first_date, i, last_date, mominst, row, rows, _i;
       rows = [];
       mominst = moment().startOf('month');

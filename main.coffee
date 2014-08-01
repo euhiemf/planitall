@@ -153,7 +153,10 @@ class Plugin extends Backbone.Model
 		js: {}
 		image: {} 
 		stylesheet: {}
+		template: {}
 
+	getAsset: (type, path) ->
+		return @localAssets[type][path]
 
 	Blueprint: new PluginBluepint
 

@@ -9,15 +9,24 @@ class Calendar extends Plugin.Blueprint.get('model')
 		navigatable: true
 		assets:
 			'stylesheet': 'calendar.css'
+			'template': 'calendar.template.html'
 
 
 
 
 class CalendarView extends Plugin.Blueprint.get('view')
 
-	template: _.template($('#calendar').html())
+	# template: _.template($('#calendar').html())
 
 	render: ->
+
+		@listenToOnce @model, 'assetsLoaded', =>
+			@template = Plugin.getAsset('template', 'calendar.template.html')
+			# console.log @template
+			@printCalendar()
+
+
+	printCalendar: ->
 
 		rows = []
 

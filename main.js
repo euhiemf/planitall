@@ -204,7 +204,12 @@
     Plugin.prototype.localAssets = {
       js: {},
       image: {},
-      stylesheet: {}
+      stylesheet: {},
+      template: {}
+    };
+
+    Plugin.prototype.getAsset = function(type, path) {
+      return this.localAssets[type][path];
     };
 
     Plugin.prototype.Blueprint = new PluginBluepint;

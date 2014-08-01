@@ -52,8 +52,6 @@
 
   })(Backbone.View);
 
-  window.itemviewshit = 123;
-
   app.get('plugin').get('todo').get('imports').set('views/item.js', [
     {
       local: true,

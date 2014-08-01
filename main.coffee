@@ -20,12 +20,15 @@ class PluginScriptImport extends Backbone.Model
 
 		@on 'change', =>
 
+
 			attrs = @changedAttributes()
+
+			console.log attrs
 
 			if attrs
 
 				for key, val of attrs
-					@trigger 'loaded:' + key, val, @model
+					@trigger 'loaded:' + key, val, @model, key
 				
 
 
@@ -160,6 +163,31 @@ class Plugin extends Backbone.Model
 
 	Blueprint: new PluginBluepint
 
+	cachedFilesWithGlobals: []
+	inCache: (path) -> 
+		@cachedFilesWithGlobals.indexOf(path) > -1
+
+	cache: (path) ->
+		@cachedFilesWithGlobals.push(path)
+
+	isAllGlobal: (data) ->
+
+		global = true
+
+		if Array.isArray(data)
+
+			(global = false if @isLocal arrdata) for arrdata in data
+
+		else
+			global = @isGlobal(data)
+
+		return global
+
+	isGlobal: (data) ->
+		not data.local and data.global
+	isLocal: (data) ->
+		(not data.local and not data.global) or (data.local and not data.global)
+
 	import: (data) ->
 		if not data.local and not data.global then data.local = true
 
@@ -171,7 +199,10 @@ class Plugin extends Backbone.Model
 			app.clearer.add('remove', 'object', clear)
 
 		else if data.global
-			@global[data.import.name] = data.import
+			if @global.hasOwnProperty(data.import.name)
+				console.log 'A key with the name of ' + data.import.name + ' does already exist in global, will not import it!'
+			else
+				@global[data.import.name] = data.import
 
 	initialize: ->
 
@@ -249,19 +280,39 @@ class Plugin extends Backbone.Model
 
 	memorize: (model) ->
 
+		@preload(model)
+
 		id = model.get 'id'
 
 		@set(id, model)
 
 		@triggerNav(model)
 
+	preload: (model) ->
+
+		js = model.get('assets')?.js
+
+		if Array.isArray js
+			for path in js
+				if typeof path isnt 'string'
+					if js.preload
+						@preloadPath(path.path, model)
+		else if typeof js isnt 'undefined'
+			if typeof js isnt 'string'
+				if js.preload
+					@preloadPath(js.path, model)
+
+	preloadPath: (path, model) ->
+		if path
+			@load(path, 'js', model)
+
+
+
 	triggerNav: (model) ->
 
 		ev = 'new'
 		if model.get('navigatable') then ev += ':navigatable'
 		if @getSettings(model).get('active') is false then ev += ':inactive'
-
-		console.log ev
 
 		@trigger(ev, model)
 
@@ -303,9 +354,13 @@ class Plugin extends Backbone.Model
 			@assetsLoaded(model)
 
 
-	parseImport: (properties, model) ->
+
+
+	parseImport: (properties, model, path) ->
 		# the script file should at this point have been parsed by the web brwower
 		if Array.isArray(properties) then @import arrdata for arrdata in properties else @import properties
+
+		if @isAllGlobal properties then @cache path
 
 		model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1)
 
@@ -387,6 +442,12 @@ class Plugin extends Backbone.Model
 			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
 
 	load: (path, type, model) ->
+
+
+		if typeof path isnt 'string' then path = path.path
+
+
+		if @inCache path then return console.log 'path didnt import, cause cached'
 
 
 		# IF xhr loads faster than javascript execution, this code will break

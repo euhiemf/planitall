@@ -31,8 +31,6 @@ class ItemView extends Backbone.View
 		@$el.remove()
 
 
-window.itemviewshit = 123
-
 
 app.get('plugin').get('todo').get('imports').set('views/item.js', [
 

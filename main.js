@@ -29,11 +29,12 @@
         return function() {
           var attrs, key, val, _results;
           attrs = _this.changedAttributes();
+          console.log(attrs);
           if (attrs) {
             _results = [];
             for (key in attrs) {
               val = attrs[key];
-              _results.push(_this.trigger('loaded:' + key, val, _this.model));
+              _results.push(_this.trigger('loaded:' + key, val, _this.model, key));
             }
             return _results;
           }
@@ -214,6 +215,40 @@
 
     Plugin.prototype.Blueprint = new PluginBluepint;
 
+    Plugin.prototype.cachedFilesWithGlobals = [];
+
+    Plugin.prototype.inCache = function(path) {
+      return this.cachedFilesWithGlobals.indexOf(path) > -1;
+    };
+
+    Plugin.prototype.cache = function(path) {
+      return this.cachedFilesWithGlobals.push(path);
+    };
+
+    Plugin.prototype.isAllGlobal = function(data) {
+      var arrdata, global, _i, _len;
+      global = true;
+      if (Array.isArray(data)) {
+        for (_i = 0, _len = data.length; _i < _len; _i++) {
+          arrdata = data[_i];
+          if (this.isLocal(arrdata)) {
+            global = false;
+          }
+        }
+      } else {
+        global = this.isGlobal(data);
+      }
+      return global;
+    };
+
+    Plugin.prototype.isGlobal = function(data) {
+      return !data.local && data.global;
+    };
+
+    Plugin.prototype.isLocal = function(data) {
+      return (!data.local && !data.global) || (data.local && !data.global);
+    };
+
     Plugin.prototype["import"] = function(data) {
       var clear;
       if (!data.local && !data.global) {
@@ -225,7 +260,11 @@
         clear[data["import"].name] = this.local;
         return app.clearer.add('remove', 'object', clear);
       } else if (data.global) {
-        return this.global[data["import"].name] = data["import"];
+        if (this.global.hasOwnProperty(data["import"].name)) {
+          return console.log('A key with the name of ' + data["import"].name + ' does already exist in global, will not import it!');
+        } else {
+          return this.global[data["import"].name] = data["import"];
+        }
       }
     };
 
@@ -298,9 +337,43 @@
 
     Plugin.prototype.memorize = function(model) {
       var id;
+      this.preload(model);
       id = model.get('id');
       this.set(id, model);
       return this.triggerNav(model);
+    };
+
+    Plugin.prototype.preload = function(model) {
+      var js, _i, _len, _ref, _results;
+      js = (_ref = model.get('assets')) != null ? _ref.js : void 0;
+      if (Array.isArray(js)) {
+        _results = [];
+        for (_i = 0, _len = js.length; _i < _len; _i++) {
+          path = js[_i];
+          if (typeof path !== 'string') {
+            if (js.preload) {
+              _results.push(this.preloadPath(path.path, model));
+            } else {
+              _results.push(void 0);
+            }
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      } else if (typeof js !== 'undefined') {
+        if (typeof js !== 'string') {
+          if (js.preload) {
+            return this.preloadPath(js.path, model);
+          }
+        }
+      }
+    };
+
+    Plugin.prototype.preloadPath = function(path, model) {
+      if (path) {
+        return this.load(path, 'js', model);
+      }
     };
 
     Plugin.prototype.triggerNav = function(model) {
@@ -312,7 +385,6 @@
       if (this.getSettings(model).get('active') === false) {
         ev += ':inactive';
       }
-      console.log(ev);
       return this.trigger(ev, model);
     };
 
@@ -355,7 +427,7 @@
       }
     };
 
-    Plugin.prototype.parseImport = function(properties, model) {
+    Plugin.prototype.parseImport = function(properties, model, path) {
       var arrdata, _i, _len;
       if (Array.isArray(properties)) {
         for (_i = 0, _len = properties.length; _i < _len; _i++) {
@@ -364,6 +436,9 @@
         }
       } else {
         this["import"](properties);
+      }
+      if (this.isAllGlobal(properties)) {
+        this.cache(path);
       }
       return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
     };
@@ -445,6 +520,12 @@
 
     Plugin.prototype.load = function(path, type, model) {
       var id, xhr;
+      if (typeof path !== 'string') {
+        path = path.path;
+      }
+      if (this.inCache(path)) {
+        return console.log('path didnt import, cause cached');
+      }
       model.set('assetsLength', model.get('assetsLength') + 1);
       id = model.get('id');
       return xhr = $.ajax({

@@ -10,6 +10,9 @@ class Calendar extends Plugin.Blueprint.get('model')
 		assets:
 			'stylesheet': 'calendar.css'
 			'template': 'calendar.template.html'
+			'js':
+				path: 'calendar-buffer.js'
+				preload: true
 
 
 
@@ -18,12 +21,17 @@ class CalendarView extends Plugin.Blueprint.get('view')
 
 	# template: _.template($('#calendar').html())
 
+
 	render: ->
 
 		@listenToOnce @model, 'assetsLoaded', =>
-			@template = Plugin.getAsset('template', 'calendar.template.html')
-			# console.log @template
-			@printCalendar()
+
+			template = Plugin.getAsset('template', 'calendar.template.html')
+			buffer = new Plugin.global.Calendar template, @el
+
+			buffer.print()
+
+
 
 
 	printCalendar: ->
@@ -71,4 +79,6 @@ class CalendarView extends Plugin.Blueprint.get('view')
 
 
 
+
 Plugin.new(Calendar).view(CalendarView)
+

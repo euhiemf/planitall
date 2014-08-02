@@ -23,8 +23,6 @@ class PluginScriptImport extends Backbone.Model
 
 			attrs = @changedAttributes()
 
-			console.log attrs
-
 			if attrs
 
 				for key, val of attrs
@@ -73,19 +71,41 @@ class PluginBluepint extends Backbone.Model
 		@set 'router', @bpr
 
 
-	render: (context) ->
+	Render: class extends Backbone.Model
 
-		do (context) -> (func, args...) ->
-			app.clearer.clear()
-			func.apply(context, args)
-			app.clearer.add('unset', 'html', '.plugin')
+		constructor: (@model, @context) ->
+
+
+
+		blit: (func, args...) =>
+
+			# clear previouis page
+			app.clearer.clear { ignore: ['plugin.' + @model.get('id')] }
+			# load assets
+			status = @model.get('assets-status')
+
+			# $('.plugin').loading().hide()
+			# $('.plugin').loading(false).show()
+
+			# call func
+
+
+			@model.once 'assets-loaded', =>
+				func.apply @context, args
+				# add what to clear
+				app.clearer.add('unset', 'html', '.plugin')
+				app.clearer.add 'execute', 'function', (=> @model.set('assets-status', 0)), { domain: 'plugin.' + @model.get('id') }
+
+
+			if status is 0 then app.get('plugin').loadAssets @model else if status is 1 then @model.trigger('assets-loaded')
 
 
 	bpm: class extends Backbone.Model
 
 		'default-blueprint-properties':
-			navigatable: false
-			submenus: []
+			'navigatable': false
+			'submenus': []
+			'assets-status': 0
 
 		constructor: ->
 
@@ -101,8 +121,8 @@ class PluginBluepint extends Backbone.Model
 
 			_.defaults @defaults, dbp
 
-
 			delete @['default-blueprint-properties']
+
 
 
 
@@ -111,6 +131,13 @@ class PluginBluepint extends Backbone.Model
 	bpv: class extends Backbone.View
 		el: '.plugin'
 
+		constructor: (options) ->
+
+			Render = app.get('plugin').Blueprint.Render
+			@render = new Render(options.model, @)
+
+
+			Backbone.View.apply @, arguments
 
 	bpr: class extends Backbone.Router
 
@@ -163,12 +190,15 @@ class Plugin extends Backbone.Model
 
 	Blueprint: new PluginBluepint
 
-	cachedFilesWithGlobals: []
+	cacheMemory: {}
 	inCache: (path) -> 
-		@cachedFilesWithGlobals.indexOf(path) > -1
+		_.values(@cacheMemory).indexOf(path) > -1
 
 	cache: (path) ->
-		@cachedFilesWithGlobals.push(path)
+		id = Math.random().toString(36).substr(2)
+		@cacheMemory[id] = path
+
+		return id
 
 	isAllGlobal: (data) ->
 
@@ -188,15 +218,13 @@ class Plugin extends Backbone.Model
 	isLocal: (data) ->
 		(not data.local and not data.global) or (data.local and not data.global)
 
-	import: (data) ->
+	import: (data, model) ->
 		if not data.local and not data.global then data.local = true
 
 		if data.local
 			@local[data.import.name] = data.import
 
-			clear = {}
-			clear[data.import.name] = @local
-			app.clearer.add('remove', 'object', clear)
+			app.clearer.add 'remove', 'object', { base: @local, key: data.import.name }, { domain: 'plugin.' + model.get('id') }
 
 		else if data.global
 			if @global.hasOwnProperty(data.import.name)
@@ -208,9 +236,6 @@ class Plugin extends Backbone.Model
 
 		@collection = new Plugins
 
-
-		@on 'pre-render', @preRender, @
-		@on 'post-render', @postRender, @
 
 		@collection.on 'toggle-active', (model) =>
 			# this model is of type PluginsSetting
@@ -242,20 +267,11 @@ class Plugin extends Backbone.Model
 			model: model
 
 
-		ref = instance.render or null
-
-		instance.render = do (ref, instance, model) -> () ->
-			app.get('plugin').trigger 'pre-render', model
-
-			retu = ref?.apply(instance, arguments)
-
-			app.get('plugin').trigger 'post-render', model
-
-			return retu
-
-
 		model.view = instance
 		model.view.model = model
+
+		model.view.listenTo model, 'user-request-main', ->
+			@render.trigger 'user-request-main'
 
 		view: @view
 		router: @router
@@ -316,15 +332,6 @@ class Plugin extends Backbone.Model
 
 		@trigger(ev, model)
 
-	preRender: (model) ->
-
-		app.clearer.clear()
-
-		$('.plugin').loading().hide()
-
-		@loadAssets model
-
-
 
 	postRender: (model) ->
 		app.clearer.add('unset', 'html', '.plugin')
@@ -333,11 +340,12 @@ class Plugin extends Backbone.Model
 
 	loadAssets: (model) ->
 
-		assets = model.get('assets')
 
+		assets = model.get('assets')
 
 		model.set('assetsLength', 0)
 		model.set('loadedAssetsCount', 0)
+
 
 		for type, value of assets
 
@@ -345,29 +353,43 @@ class Plugin extends Backbone.Model
 
 			if Array.isArray(value) then @load(fname, args...) for fname in value else @load(value, args...)
 
-		model.on 'change:loadedAssetsCount', (m, value) =>
+		@listenTo model, 'change:loadedAssetsCount', (m, value) =>
 			if value is m.get('assetsLength') then @assetsLoaded(m)
 
 
 
-		if model.get('assetsLength') is 0
-			@assetsLoaded(model)
+		if model.get('assetsLength') is 0 then @assetsLoaded(model)
 
 
 
 
 	parseImport: (properties, model, path) ->
 		# the script file should at this point have been parsed by the web brwower
-		if Array.isArray(properties) then @import arrdata for arrdata in properties else @import properties
+		if Array.isArray(properties) then @import arrdata, model for arrdata in properties else @import properties, model
 
-		if @isAllGlobal properties then @cache path
+		if @isAllGlobal properties then @cache @getUrl(path, model)
+
 
 		model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1)
 
 
-	assetsLoaded: (model) ->
-		model.trigger('assetsLoaded')
+	assetsLoaded: (model) =>
+
+		@stopListening(model, 'change:loadedAssetsCount')
+
+		model.set('assets-status', 1)
+		model.trigger('assets-loaded')
 		$('.plugin').loading(false).show()
+
+
+
+	addLocalAsset: (type, path, what, model) ->
+		@localAssets[type][path] = what
+
+		cacheId = @cache @getUrl(path, model)
+
+		app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, { domain: 'plugin.' + model.get('id') }
+		app.clearer.add 'remove', 'object', { base: @cacheMemory, key: cacheId }, { domain: 'plugin.' + model.get('id') }
 
 
 	loadfuncs:
@@ -388,9 +410,7 @@ class Plugin extends Backbone.Model
 
 			model.get('imports').once 'loaded:' + path, @parseImport, @
 
-			@localAssets[type][path] = element
-
-			app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
+			@addLocalAsset(type, path, element, model)
 
 		stylesheet: (data, id, type, path, model) ->
 			blob = new Blob [data], 
@@ -408,9 +428,8 @@ class Plugin extends Backbone.Model
 			app.clearer.add('remove', 'html', element)
 
 
-			@localAssets[type][path] = element
+			@addLocalAsset(type, path, element, model)
 
-			app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
 
 
 			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
@@ -426,32 +445,33 @@ class Plugin extends Backbone.Model
 			url = URL.createObjectURL(blob)
 
 
-			@localAssets[type][path] = url
-
-			app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
-
+			@addLocalAsset(type, path, url, model)
 
 			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
 
 		template: (data, id, type, path, model) ->
 
-			@localAssets[type][path] = _.template(data)
-
-			app.clearer.add 'remove', 'object', { base: @localAssets[type], key: path }, true
+			@addLocalAsset(type, path, _.template(data), model)
 
 			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
+
+
+	getUrl: (path, model) ->
+		id = model.get('id')
+		return "./plugins/#{id}/#{path}"
 
 	load: (path, type, model) ->
 
 
 		if typeof path isnt 'string' then path = path.path
 
+		url = @getUrl(path, model)
 
-		if @inCache path then return console.log 'path didnt import, cause cached'
+		if @inCache url then return console.log path + ' didnt import, cause cached'
 
+		model.set('assetsLength', model.get('assetsLength') + 1)
 
 		# IF xhr loads faster than javascript execution, this code will break
-		model.set('assetsLength', model.get('assetsLength') + 1)
 
 		id = model.get('id')
 
@@ -468,7 +488,7 @@ class Plugin extends Backbone.Model
 
 
 
-			url: "./plugins/#{id}/#{path}"
+			url: url
 			context: @
 			dataType: 'text'
 			isLocal: true
@@ -585,28 +605,40 @@ class Views extends Backbone.Model
 
 class Clearer
 	toclear: []
+	toflush: []
 
-	add: (action, what, value, additional...) =>
+	add: (action, what, value, options) =>
 		# [remove, unset, show], [html, object], [DOMElement, Object]
 
 		@toclear.push
 			what: what
 			value: value
 			action: action
-			additional: additional
+			options: options
 
 
 
 
-	clear: =>
+	clear: (options) =>
 		whachado = 
 			html: @removeHTML
 			object: @removeObject
+			function: @execFunc
 
-		for ob in @toclear
-			whachado[ob.what] ob.value, ob.action, ob.additional...
+		for ob, index in _.clone @toclear
 
-		@toclear = []
+			if options?.ignore?.indexOf(ob.options?.domain) > -1 then continue
+
+			whachado[ob.what].call @, ob.value, ob.action, ob.options, options
+
+			@toflush.push index
+
+		@flush()
+
+	execFunc: (func) ->
+
+		func()
+
 
 	removeHTML: (element, action) ->
 		switch action
@@ -614,17 +646,26 @@ class Clearer
 			when 'unset' then $(element).html('')
 			when 'show' then $(element).show()
 
-	removeObject: (value, action, keys = false) ->
 
-		if keys
-			switch action
-				when 'remove' then delete value.base[value.key]
-				when 'unset' then value.base[value.key] = null
-		else 
-			for key, val of value
-				switch action
-					when 'remove' then delete val[key]
-					when 'unset' then val[key] = null
+	removeObject: (value, action) ->
+
+		switch action
+			when 'remove' then delete value.base[value.key]
+			when 'unset' then value.base[value.key] = null
+
+
+
+	flush: ->
+
+		for clear_index in @toflush
+			@toclear.splice clear_index, 1
+
+			for ol_clrinx, flush_index in @toflush
+				@toflush[flush_index] = ol_clrinx - 1
+
+
+
+		@toflush = []
 
 
 
@@ -679,7 +720,7 @@ class Router extends Backbone.Router
 			app.get('views').get('plugins').render()
 
 		else if action is 'view'
-			app.get('plugin').get(id).view.render()
+			app.get('plugin').get(id).trigger('user-request-main')
 
 	'gohome': ->
 		@navigate 'home'

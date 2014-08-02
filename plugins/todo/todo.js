@@ -38,13 +38,17 @@
       'click .add': 'addone'
     };
 
+    TodoView.prototype.initialize = function() {
+      return this.render.on('user-request-main', this.renderMain, this);
+    };
+
     TodoView.prototype.addone = function() {
       return items.push({});
     };
 
-    TodoView.prototype.render = function() {
-      this.$el.html("\n	<div class=\"new\"><button class=\"add\">Add New</button></div>\n	<ol class=\"items\"></ol>\n");
-      return this.listenToOnce(this.model, 'assetsLoaded', function() {
+    TodoView.prototype.renderMain = function() {
+      return this.render.blit(function() {
+        this.$el.html("\n	<div class=\"new\"><button class=\"add\">Add New</button></div>\n	<ol class=\"items\"></ol>\n");
         return itemsView.render();
       });
     };

@@ -19,17 +19,15 @@ class Calendar extends Plugin.Blueprint.get('model')
 
 class CalendarView extends Plugin.Blueprint.get('view')
 
-	# template: _.template($('#calendar').html())
+	initialize: ->
+		@render.on('user-request-main', @renderMain, @)
 
+	renderMain: -> @render.blit ->
 
-	render: ->
+		template = Plugin.getAsset('template', 'calendar.template.html')
+		buffer = new Plugin.global.Calendar template, @el
 
-		@listenToOnce @model, 'assetsLoaded', =>
-
-			template = Plugin.getAsset('template', 'calendar.template.html')
-			buffer = new Plugin.global.Calendar template, @el
-
-			buffer.print()
+		buffer.print()
 
 
 

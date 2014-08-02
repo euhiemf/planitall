@@ -17,6 +17,9 @@
       id: 'task',
       title: 'Tasks',
       navigatable: true,
+      assets: {
+        template: 'new.template.html'
+      },
       submenus: [
         {
           link: 'list',
@@ -39,19 +42,27 @@
       return TaskView.__super__.constructor.apply(this, arguments);
     }
 
-    TaskView.prototype.render = function() {
-      return this.$el.html('<h2>Task main</h2>');
+    TaskView.prototype.initialize = function() {
+      return this.render.on('user-request-main', this.renderMain, this);
+    };
+
+    TaskView.prototype.renderMain = function() {
+      return this.render.blit(function() {
+        return this.$el.html('<h2>Task main</h2>');
+      });
     };
 
     TaskView.prototype.renderList = function() {
-      return Plugin.Blueprint.render(this)(function() {
-        return this.$el.html('<h2>Task new</h2>');
+      return this.render.blit(function() {
+        return this.$el.html('<h2>Task list</h2>');
       });
     };
 
     TaskView.prototype.renderNew = function() {
-      return Plugin.Blueprint.render(this)(function() {
-        return this.$el.html("\n<h2>Add a new task</h2>\n\n<form>\n\n	<div class=\"input-box\">\n		<label class='input-title before'>Start from</label>\n		<input class='text' type='text'>\n		<button class='button dateselect after'></button>\n	</div>\n\n	<div class=\"input-box\">\n		<label class='input-title before'>End at</label>\n		<input class='text' type='text'>\n		<button class='button dateselect after'></button>\n	</div>\n\n\n	<div class=\"combo-box\">\n		<label class='input-title before'>Type</label>\n		<input class='text' type='text'>\n		<button class='button dateselect after'></button>\n		<ul class='options'>\n			<li class='option'>Read</li>\n			<li class='option'>Study</li>\n			<li class='option'>Do</li>\n			<li class='separator'></li>\n			<li class='option'>Add more...</li>\n		</ul>\n	</div>\n\n\n</form>\n");
+      return this.render.blit(function() {
+        var template;
+        template = Plugin.getAsset('template', 'new.template.html');
+        return this.$el.html(template());
       });
     };
 

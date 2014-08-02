@@ -38,15 +38,17 @@
       return CalendarView.__super__.constructor.apply(this, arguments);
     }
 
-    CalendarView.prototype.render = function() {
-      return this.listenToOnce(this.model, 'assetsLoaded', (function(_this) {
-        return function() {
-          var buffer, template;
-          template = Plugin.getAsset('template', 'calendar.template.html');
-          buffer = new Plugin.global.Calendar(template, _this.el);
-          return buffer.print();
-        };
-      })(this));
+    CalendarView.prototype.initialize = function() {
+      return this.render.on('user-request-main', this.renderMain, this);
+    };
+
+    CalendarView.prototype.renderMain = function() {
+      return this.render.blit(function() {
+        var buffer, template;
+        template = Plugin.getAsset('template', 'calendar.template.html');
+        buffer = new Plugin.global.Calendar(template, this.el);
+        return buffer.print();
+      });
     };
 
     CalendarView.prototype.printCalendar = function() {

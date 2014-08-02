@@ -4,8 +4,8 @@
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    __slice = [].slice,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __slice = [].slice;
 
   if (__indexOf.call(this, 'global') >= 0 && __indexOf.call(this, 'require') >= 0) {
     gui = require('nw.gui');
@@ -29,7 +29,6 @@
         return function() {
           var attrs, key, val, _results;
           attrs = _this.changedAttributes();
-          console.log(attrs);
           if (attrs) {
             _results = [];
             for (key in attrs) {
@@ -112,24 +111,51 @@
       return this.set('router', this.bpr);
     };
 
-    PluginBluepint.prototype.render = function(context) {
-      return (function(context) {
-        return function() {
-          var args, func;
-          func = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-          app.clearer.clear();
-          func.apply(context, args);
-          return app.clearer.add('unset', 'html', '.plugin');
-        };
-      })(context);
-    };
+    PluginBluepint.prototype.Render = (function(_super1) {
+      __extends(_Class, _super1);
+
+      function _Class(model, context) {
+        this.model = model;
+        this.context = context;
+        this.blit = __bind(this.blit, this);
+      }
+
+      _Class.prototype.blit = function() {
+        var args, func, status;
+        func = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        app.clearer.clear({
+          ignore: ['plugin.' + this.model.get('id')]
+        });
+        status = this.model.get('assets-status');
+        this.model.once('assets-loaded', (function(_this) {
+          return function() {
+            func.apply(_this.context, args);
+            app.clearer.add('unset', 'html', '.plugin');
+            return app.clearer.add('execute', 'function', (function() {
+              return _this.model.set('assets-status', 0);
+            }), {
+              domain: 'plugin.' + _this.model.get('id')
+            });
+          };
+        })(this));
+        if (status === 0) {
+          return app.get('plugin').loadAssets(this.model);
+        } else if (status === 1) {
+          return this.model.trigger('assets-loaded');
+        }
+      };
+
+      return _Class;
+
+    })(Backbone.Model);
 
     PluginBluepint.prototype.bpm = (function(_super1) {
       __extends(_Class, _super1);
 
       _Class.prototype['default-blueprint-properties'] = {
-        navigatable: false,
-        submenus: []
+        'navigatable': false,
+        'submenus': [],
+        'assets-status': 0
       };
 
       function _Class() {
@@ -152,11 +178,14 @@
     PluginBluepint.prototype.bpv = (function(_super1) {
       __extends(_Class, _super1);
 
-      function _Class() {
-        return _Class.__super__.constructor.apply(this, arguments);
-      }
-
       _Class.prototype.el = '.plugin';
+
+      function _Class(options) {
+        var Render;
+        Render = app.get('plugin').Blueprint.Render;
+        this.render = new Render(options.model, this);
+        Backbone.View.apply(this, arguments);
+      }
 
       return _Class;
 
@@ -194,6 +223,7 @@
     __extends(Plugin, _super);
 
     function Plugin() {
+      this.assetsLoaded = __bind(this.assetsLoaded, this);
       this.getSettings = __bind(this.getSettings, this);
       return Plugin.__super__.constructor.apply(this, arguments);
     }
@@ -215,14 +245,17 @@
 
     Plugin.prototype.Blueprint = new PluginBluepint;
 
-    Plugin.prototype.cachedFilesWithGlobals = [];
+    Plugin.prototype.cacheMemory = {};
 
     Plugin.prototype.inCache = function(path) {
-      return this.cachedFilesWithGlobals.indexOf(path) > -1;
+      return _.values(this.cacheMemory).indexOf(path) > -1;
     };
 
     Plugin.prototype.cache = function(path) {
-      return this.cachedFilesWithGlobals.push(path);
+      var id;
+      id = Math.random().toString(36).substr(2);
+      this.cacheMemory[id] = path;
+      return id;
     };
 
     Plugin.prototype.isAllGlobal = function(data) {
@@ -249,16 +282,18 @@
       return (!data.local && !data.global) || (data.local && !data.global);
     };
 
-    Plugin.prototype["import"] = function(data) {
-      var clear;
+    Plugin.prototype["import"] = function(data, model) {
       if (!data.local && !data.global) {
         data.local = true;
       }
       if (data.local) {
         this.local[data["import"].name] = data["import"];
-        clear = {};
-        clear[data["import"].name] = this.local;
-        return app.clearer.add('remove', 'object', clear);
+        return app.clearer.add('remove', 'object', {
+          base: this.local,
+          key: data["import"].name
+        }, {
+          domain: 'plugin.' + model.get('id')
+        });
       } else if (data.global) {
         if (this.global.hasOwnProperty(data["import"].name)) {
           return console.log('A key with the name of ' + data["import"].name + ' does already exist in global, will not import it!');
@@ -270,8 +305,6 @@
 
     Plugin.prototype.initialize = function() {
       this.collection = new Plugins;
-      this.on('pre-render', this.preRender, this);
-      this.on('post-render', this.postRender, this);
       return this.collection.on('toggle-active', (function(_this) {
         return function(model) {
           return _this.triggerNav(_this.get(model.get('id')));
@@ -298,23 +331,16 @@
     };
 
     Plugin.prototype.view = function(view) {
-      var instance, model, ref;
+      var instance, model;
       model = this.model;
       instance = new view({
         model: model
       });
-      ref = instance.render || null;
-      instance.render = (function(ref, instance, model) {
-        return function() {
-          var retu;
-          app.get('plugin').trigger('pre-render', model);
-          retu = ref != null ? ref.apply(instance, arguments) : void 0;
-          app.get('plugin').trigger('post-render', model);
-          return retu;
-        };
-      })(ref, instance, model);
       model.view = instance;
       model.view.model = model;
+      model.view.listenTo(model, 'user-request-main', function() {
+        return this.render.trigger('user-request-main');
+      });
       return {
         view: this.view,
         router: this.router,
@@ -388,12 +414,6 @@
       return this.trigger(ev, model);
     };
 
-    Plugin.prototype.preRender = function(model) {
-      app.clearer.clear();
-      $('.plugin').loading().hide();
-      return this.loadAssets(model);
-    };
-
     Plugin.prototype.postRender = function(model) {
       return app.clearer.add('unset', 'html', '.plugin');
     };
@@ -415,7 +435,7 @@
           this.load.apply(this, [value].concat(__slice.call(args)));
         }
       }
-      model.on('change:loadedAssetsCount', (function(_this) {
+      this.listenTo(model, 'change:loadedAssetsCount', (function(_this) {
         return function(m, value) {
           if (value === m.get('assetsLength')) {
             return _this.assetsLoaded(m);
@@ -432,20 +452,40 @@
       if (Array.isArray(properties)) {
         for (_i = 0, _len = properties.length; _i < _len; _i++) {
           arrdata = properties[_i];
-          this["import"](arrdata);
+          this["import"](arrdata, model);
         }
       } else {
-        this["import"](properties);
+        this["import"](properties, model);
       }
       if (this.isAllGlobal(properties)) {
-        this.cache(path);
+        this.cache(this.getUrl(path, model));
       }
       return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
     };
 
     Plugin.prototype.assetsLoaded = function(model) {
-      model.trigger('assetsLoaded');
+      this.stopListening(model, 'change:loadedAssetsCount');
+      model.set('assets-status', 1);
+      model.trigger('assets-loaded');
       return $('.plugin').loading(false).show();
+    };
+
+    Plugin.prototype.addLocalAsset = function(type, path, what, model) {
+      var cacheId;
+      this.localAssets[type][path] = what;
+      cacheId = this.cache(this.getUrl(path, model));
+      app.clearer.add('remove', 'object', {
+        base: this.localAssets[type],
+        key: path
+      }, {
+        domain: 'plugin.' + model.get('id')
+      });
+      return app.clearer.add('remove', 'object', {
+        base: this.cacheMemory,
+        key: cacheId
+      }, {
+        domain: 'plugin.' + model.get('id')
+      });
     };
 
     Plugin.prototype.loadfuncs = {
@@ -465,11 +505,7 @@
         });
         app.clearer.add('remove', 'html', element);
         model.get('imports').once('loaded:' + path, this.parseImport, this);
-        this.localAssets[type][path] = element;
-        return app.clearer.add('remove', 'object', {
-          base: this.localAssets[type],
-          key: path
-        }, true);
+        return this.addLocalAsset(type, path, element, model);
       },
       stylesheet: function(data, id, type, path, model) {
         var blob, element, url;
@@ -486,11 +522,7 @@
           cache: false
         });
         app.clearer.add('remove', 'html', element);
-        this.localAssets[type][path] = element;
-        app.clearer.add('remove', 'object', {
-          base: this.localAssets[type],
-          key: path
-        }, true);
+        this.addLocalAsset(type, path, element, model);
         return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
       },
       image: function(data, id, type, path, model) {
@@ -501,30 +533,29 @@
           type: 'image/' + ext
         });
         url = URL.createObjectURL(blob);
-        this.localAssets[type][path] = url;
-        app.clearer.add('remove', 'object', {
-          base: this.localAssets[type],
-          key: path
-        }, true);
+        this.addLocalAsset(type, path, url, model);
         return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
       },
       template: function(data, id, type, path, model) {
-        this.localAssets[type][path] = _.template(data);
-        app.clearer.add('remove', 'object', {
-          base: this.localAssets[type],
-          key: path
-        }, true);
+        this.addLocalAsset(type, path, _.template(data), model);
         return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
       }
     };
 
+    Plugin.prototype.getUrl = function(path, model) {
+      var id;
+      id = model.get('id');
+      return "./plugins/" + id + "/" + path;
+    };
+
     Plugin.prototype.load = function(path, type, model) {
-      var id, xhr;
+      var id, url, xhr;
       if (typeof path !== 'string') {
         path = path.path;
       }
-      if (this.inCache(path)) {
-        return console.log('path didnt import, cause cached');
+      url = this.getUrl(path, model);
+      if (this.inCache(url)) {
+        return console.log(path + ' didnt import, cause cached');
       }
       model.set('assetsLength', model.get('assetsLength') + 1);
       id = model.get('id');
@@ -542,7 +573,7 @@
             throw new Error("./plugins/" + id + "/" + path);
           };
         })(model),
-        url: "./plugins/" + id + "/" + path,
+        url: url,
         context: this,
         dataType: 'text',
         isLocal: true,
@@ -664,29 +695,38 @@
 
     Clearer.prototype.toclear = [];
 
-    Clearer.prototype.add = function() {
-      var action, additional, value, what;
-      action = arguments[0], what = arguments[1], value = arguments[2], additional = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
+    Clearer.prototype.toflush = [];
+
+    Clearer.prototype.add = function(action, what, value, options) {
       return this.toclear.push({
         what: what,
         value: value,
         action: action,
-        additional: additional
+        options: options
       });
     };
 
-    Clearer.prototype.clear = function() {
-      var ob, whachado, _i, _len, _ref;
+    Clearer.prototype.clear = function(options) {
+      var index, ob, whachado, _i, _len, _ref, _ref1, _ref2;
       whachado = {
         html: this.removeHTML,
-        object: this.removeObject
+        object: this.removeObject,
+        "function": this.execFunc
       };
-      _ref = this.toclear;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        ob = _ref[_i];
-        whachado[ob.what].apply(whachado, [ob.value, ob.action].concat(__slice.call(ob.additional)));
+      _ref = _.clone(this.toclear);
+      for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+        ob = _ref[index];
+        if ((options != null ? (_ref1 = options.ignore) != null ? _ref1.indexOf((_ref2 = ob.options) != null ? _ref2.domain : void 0) : void 0 : void 0) > -1) {
+          continue;
+        }
+        whachado[ob.what].call(this, ob.value, ob.action, ob.options, options);
+        this.toflush.push(index);
       }
-      return this.toclear = [];
+      return this.flush();
+    };
+
+    Clearer.prototype.execFunc = function(func) {
+      return func();
     };
 
     Clearer.prototype.removeHTML = function(element, action) {
@@ -700,35 +740,28 @@
       }
     };
 
-    Clearer.prototype.removeObject = function(value, action, keys) {
-      var key, val, _results;
-      if (keys == null) {
-        keys = false;
+    Clearer.prototype.removeObject = function(value, action) {
+      switch (action) {
+        case 'remove':
+          return delete value.base[value.key];
+        case 'unset':
+          return value.base[value.key] = null;
       }
-      if (keys) {
-        switch (action) {
-          case 'remove':
-            return delete value.base[value.key];
-          case 'unset':
-            return value.base[value.key] = null;
+    };
+
+    Clearer.prototype.flush = function() {
+      var clear_index, flush_index, ol_clrinx, _i, _j, _len, _len1, _ref, _ref1;
+      _ref = this.toflush;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        clear_index = _ref[_i];
+        this.toclear.splice(clear_index, 1);
+        _ref1 = this.toflush;
+        for (flush_index = _j = 0, _len1 = _ref1.length; _j < _len1; flush_index = ++_j) {
+          ol_clrinx = _ref1[flush_index];
+          this.toflush[flush_index] = ol_clrinx - 1;
         }
-      } else {
-        _results = [];
-        for (key in value) {
-          val = value[key];
-          switch (action) {
-            case 'remove':
-              _results.push(delete val[key]);
-              break;
-            case 'unset':
-              _results.push(val[key] = null);
-              break;
-            default:
-              _results.push(void 0);
-          }
-        }
-        return _results;
       }
+      return this.toflush = [];
     };
 
     return Clearer;
@@ -783,7 +816,7 @@
       if (action === false) {
         return app.get('views').get('plugins').render();
       } else if (action === 'view') {
-        return app.get('plugin').get(id).view.render();
+        return app.get('plugin').get(id).trigger('user-request-main');
       }
     };
 

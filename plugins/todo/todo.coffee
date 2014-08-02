@@ -23,6 +23,9 @@ class TodoView extends Plugin.Blueprint.get('view')
 	events:
 		'click .add': 'addone'
 
+	initialize: ->
+		@render.on 'user-request-main', @renderMain, @
+
 
 	addone: ->
 
@@ -30,7 +33,7 @@ class TodoView extends Plugin.Blueprint.get('view')
 
 
 
-	render: ->
+	renderMain: -> @render.blit ->
 
 		@$el.html """
 		
@@ -39,9 +42,7 @@ class TodoView extends Plugin.Blueprint.get('view')
 
 		"""
 
-		@listenToOnce @model, 'assetsLoaded', ->
-			itemsView.render()
-		# itemsView.render()
+		itemsView.render()
 
 
 

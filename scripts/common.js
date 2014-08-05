@@ -5,12 +5,18 @@
     paths: {
       'backbone': 'backbone/backbone',
       'underscore': 'backbone/underscore',
-      'backbone.localstorage': 'backbone/backbone.localStorage',
+      'localstorage': 'backbone/backbone.localStorage',
       'jquery': 'jquery/jquery',
+      'dotjs': 'doT.min',
+      'dot': 'require/dot',
+      'coffee-script': 'require/coffee-script',
+      'cs': 'require/cs',
+      'text': 'require/text',
       'jquery-private': 'no-conflict/jquery/nc',
       'backbone-private': 'no-conflict/backbone/nc',
       'underscore-private': 'no-conflict/underscore/nc',
-      'scripts': 'scripts'
+      'app': '../scripts',
+      'plugins': '../plugins'
     },
     map: {
       '*': {
@@ -29,19 +35,20 @@
       }
     },
     shim: {
+      'underscore': {
+        "export": '_'
+      },
       'backbone': {
         deps: ['underscore', 'jquery'],
         "export": 'Backbone'
       },
-      'underscore': {
-        "export": '_'
-      },
-      'backbone.localstorage': ['backbone']
+      'localstorage': {
+        deps: ['backbone'],
+        "export": 'Backbone.LocalStorage'
+      }
     }
   });
 
-  requirejs(['backbone'], function(Backbone) {
-    return console.log('loaded', Backbone);
-  });
+  requirejs(['cs!app/app']);
 
 }).call(this);

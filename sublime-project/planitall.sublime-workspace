@@ -1,0 +1,788 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"b",
+				"Backbone"
+			],
+			[
+				"loca",
+				"localstorage"
+			],
+			[
+				"jque",
+				"jquery"
+			],
+			[
+				"jq",
+				"jquery"
+			],
+			[
+				"re",
+				"requirejs"
+			],
+			[
+				"sc",
+				"scope"
+			],
+			[
+				"exec",
+				"execute"
+			],
+			[
+				"ca",
+				"cachedFilesWithGlobals"
+			],
+			[
+				"get",
+				"getUrl"
+			],
+			[
+				"assesta",
+				"assetsStatus"
+			],
+			[
+				"set",
+				"setupnav"
+			],
+			[
+				"li",
+				"liclick"
+			],
+			[
+				"sub",
+				"sub-menu"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/ac86459/Git/planitall/index.html",
+			"settings":
+			{
+				"buffer_size": 1578,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/ac86459/Git/planitall/scripts/common.coffee",
+			"settings":
+			{
+				"buffer_size": 937,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/ac86459/Git/planitall/scripts/app.coffee",
+			"settings":
+			{
+				"buffer_size": 81,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/ac86459/Git/planitall/scripts/plugin-loader.coffee",
+			"settings":
+			{
+				"buffer_size": 186,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 88.0,
+		"selected_items":
+		[
+			[
+				"sscoffe",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"wrap",
+				"HTML: Wrap Selection With Tag"
+			],
+			[
+				"sssass",
+				"Set Syntax: Sass"
+			],
+			[
+				"sssas",
+				"Set Syntax: Sass"
+			],
+			[
+				"ssass",
+				"Set Syntax: Sass"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings - Default"
+			],
+			[
+				"keyb",
+				"Preferences: Key Bindings - User"
+			],
+			[
+				"settings",
+				"Preferences: Settings - User"
+			],
+			[
+				"insatll",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 384.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"exit_insert_mode",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/ac86459/Git/planitall/scripts/app.js",
+		"/C/Users/ac86459/Git/planitall/scripts/common.js",
+		"/C/Users/ac86459/Git/planitall/lib/no-conflict.coffee",
+		"/C/Users/ac86459/Git/planitall/lib/no-conflict/Underscore/nc.coffee",
+		"/C/Users/ac86459/Git/planitall/lib/no-conflict/Backbone/nc.coffee",
+		"/C/Users/ac86459/Git/planitall/lib/no-conflict/jquery/nc.coffee",
+		"/C/Users/ac86459/Git/planitall/lib/backbone/backbone.localStorage.js",
+		"/C/Users/ac86459/Git/planitall/lib/jquery/jquery.private.require.js",
+		"/C/Users/ac86459/Git/planitall/lib/backbone/backbone.js",
+		"/C/Users/ac86459/Git/planitall/lib/jquery/require_jquery.js",
+		"/C/Users/ac86459/Git/planitall/scripts/main.js",
+		"/C/Users/ac86459/Git/planitall/plugins/task/new.template.html",
+		"/C/Users/ac86459/Git/planitall/index.html",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.coffee",
+		"/C/Users/ac86459/Git/planitall/main.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/task/views/new.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/task/task.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar-buffer.coffee",
+		"/C/Users/ac86459/Git/planitall/main.js",
+		"/C/Users/ac86459/Git/planitall/jquery-min.js",
+		"/C/Users/ac86459/Git/planitall/font-awesome/less/rotated-flipped.less",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/views/item.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/task/views/new.js",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/views/item.js",
+		"/C/Users/ac86459/Git/planitall/plugins/task/task.js",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.js",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.sass",
+		"/C/Users/ac86459/Git/planitall/style.sass",
+		"/C/Users/ac86459/Git/planitall/_scheme.sass",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.sass",
+		"/C/Users/ac86459/Git/planitall/views/plugins.coffee",
+		"/C/Users/ac86459/Git/planitall/laptop.bat",
+		"/C/Users/ac86459/Git/planitall/backbone-min.js",
+		"/C/Users/ac86459/Git/planitall/.gitignore",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.template.html",
+		"/C/Users/ac86459/Git/planitall/functions.jquery.coffee",
+		"/C/Users/ac86459/Git/planitall/views/plugins.js",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.css",
+		"/C/Users/ac86459/Git/planitall/views/calendar.coffee",
+		"/C/Users/ac86459/Git/planitall/calendar.css",
+		"/C/Users/ac86459/Git/planitall/calendar.sass",
+		"/C/Users/ac86459/Git/planitall/loading.jquery.js",
+		"/C/Users/ac86459/Git/planitall/package.json",
+		"/C/Users/ac86459/Git/planitall/.sass-cache/085e157ec8dd5f1fd77883462198c28261805281/todo.sassc",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.css",
+		"/C/Users/ac86459/Git/planitall/font-awesome/css/variables.css",
+		"/C/Users/ac86459/Git/planitall/.gitattributes",
+		"/C/Users/ac86459/Git/planitall/loading.jquery.coffee",
+		"/C/Users/ac86459/Git/planitall/style.css",
+		"/C/Users/ac86459/Git/planitall/destination",
+		"/C/Users/ac86459/Git/planitall/views/.gitignore",
+		"/C/Users/ac86459/Git/planitall/js/plugins/task/task.js",
+		"/C/Users/ac86459/Git/planitall/font-awesome/css/font-awesome.css",
+		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/User/Preferences.sublime-settings",
+		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/Default/Default (Windows).sublime-keymap"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"jquery",
+			"underscore",
+			"amd",
+			"jquery",
+			"backbone",
+			"jquery",
+			"../lib/",
+			"parseImport",
+			"template",
+			"parseIm",
+			"model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1",
+			"scopeOverwrite",
+			"->\n",
+			"scope",
+			"model",
+			"parseImport",
+			"parseImp",
+			"parseImprt",
+			"	parseImport",
+			"addAsset",
+			"addLocalAsset",
+			"load",
+			"addLocalAsset",
+			"@addLocalAsset(type, path, url, model)",
+			"@addLocalAsset(type, path, element, model)",
+			"parseImport",
+			"loadfuncs",
+			"loadImportAssets",
+			"loadAssets",
+			"global",
+			"parseImport",
+			"import",
+			"addLocalAsset",
+			"@taskNew",
+			"loadAssets",
+			"assets-load",
+			"assetsLoaded",
+			"console.",
+			"import",
+			"Import",
+			"import",
+			"loadAssets",
+			"load",
+			"parseImport",
+			"import",
+			"console.log",
+			"cache",
+			"cacheMemory",
+			"cachedFilesWithGlobals",
+			"cache",
+			"inCache",
+			"path",
+			"cache",
+			"'plugin.' + model.get('id')",
+			"domain: 'plugin' + model.get('id')",
+			"model",
+			"assetsLoaded",
+			"submenus",
+			"navigatable",
+			", true",
+			"loading(",
+			"postRender",
+			"'unset', 'html', '.plugin'",
+			"'assetsLoa",
+			"assetsLoad",
+			"assetsSta",
+			"navigatable",
+			"submenus",
+			"post-render",
+			"preRender",
+			"loadAssets",
+			"domain",
+			", { domain: path }",
+			"domain",
+			" }",
+			".clear",
+			"clear",
+			"this.",
+			".view",
+			"loadAssets",
+			"num",
+			"index",
+			"numin",
+			"import",
+			"Import",
+			"import",
+			"app.clearer.add",
+			", true",
+			"preload",
+			"template",
+			"if type is",
+			"ext",
+			"image",
+			"PluginAssetsImport",
+			"GetSet",
+			"trigger",
+			"js",
+			"ext",
+			"url",
+			"html",
+			"element",
+			"flex-shrink",
+			"%\n",
+			"index",
+			"addItem",
+			"removePluginItem",
+			"title",
+			"toggle-ac",
+			"id",
+			"setupnav",
+			"setupNav",
+			"setupnav",
+			"setupNav",
+			"toggle",
+			"ol",
+			"memorize",
+			"console.log",
+			"getSettings",
+			"model",
+			"getSettings",
+			"navigatable",
+			"error",
+			"select",
+			"liclick",
+			"li",
+			"top",
+			"border-top-left-radius:",
+			"10px"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"div"
+		],
+		"reverse": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/ac86459/Git/planitall/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1578,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								167,
+								167
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Users/ac86459/Git/planitall/scripts/common.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 937,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								718,
+								718
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 216.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/ac86459/Git/planitall/scripts/app.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 81,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								53,
+								53
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/ac86459/Git/planitall/scripts/plugin-loader.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 186,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								184,
+								184
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 32.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "planitall.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"index",
+				"index.html"
+			],
+			[
+				"js",
+				"main.js"
+			],
+			[
+				"main.coffe",
+				"main.coffee"
+			],
+			[
+				"calendarbuffe",
+				"plugins\\calendar\\calendar-buffer.coffee"
+			],
+			[
+				"new.coffe",
+				"plugins\\task\\views\\new.coffee"
+			],
+			[
+				"main.js",
+				"main.js"
+			],
+			[
+				"main.co",
+				"main.coffee"
+			],
+			[
+				"calendarbu",
+				"plugins\\calendar\\calendar-buffer.coffee"
+			],
+			[
+				"calendar",
+				"plugins\\calendar\\calendar.coffee"
+			],
+			[
+				"new.temp",
+				"plugins\\task\\new.template.html"
+			],
+			[
+				"item.coffe",
+				"plugins\\todo\\views\\item.coffee"
+			],
+			[
+				"taskcoffe",
+				"plugins\\task\\task.coffee"
+			],
+			[
+				"main.coe",
+				"main.coffee"
+			],
+			[
+				"main",
+				"main.js"
+			],
+			[
+				"maincofe",
+				"main.coffee"
+			],
+			[
+				"todo.coffe",
+				"plugins\\todo\\todo.coffee"
+			],
+			[
+				"todo.js",
+				"plugins\\todo\\todo.js"
+			],
+			[
+				"taskcof",
+				"plugins\\task\\task.coffee"
+			],
+			[
+				"todocoffe",
+				"plugins\\todo\\todo.coffee"
+			],
+			[
+				"task",
+				"plugins\\task\\task.js"
+			],
+			[
+				"calendar.coffe",
+				"plugins\\calendar\\calendar.coffee"
+			],
+			[
+				"buffer.",
+				"plugins\\calendar\\calendar-buffer.coffee"
+			],
+			[
+				"main.coff",
+				"main.coffee"
+			],
+			[
+				"bu",
+				"plugins\\calendar\\calendar-buffer.coffee"
+			],
+			[
+				"main.cof",
+				"main.coffee"
+			],
+			[
+				"index.ht",
+				"index.html"
+			],
+			[
+				"main.sj",
+				"main.js"
+			],
+			[
+				"item.js",
+				"plugins\\todo\\views\\item.js"
+			],
+			[
+				"calendar.sas",
+				"plugins\\calendar\\calendar.sass"
+			],
+			[
+				"calendar.c",
+				"plugins\\calendar\\calendar.coffee"
+			],
+			[
+				"calenar",
+				"views\\calendar.coffee"
+			],
+			[
+				"mai",
+				"main.coffee"
+			],
+			[
+				"task.coffee",
+				"plugins\\task\\task.coffee"
+			],
+			[
+				"calndar.coffe",
+				"views\\calendar.coffee"
+			],
+			[
+				"lapt",
+				"laptop.bat"
+			],
+			[
+				"style.sas",
+				"style.sass"
+			],
+			[
+				"task.cof",
+				"plugins\\task\\task.coffee"
+			],
+			[
+				"style.sa",
+				"style.sass"
+			],
+			[
+				"plugins.js",
+				"views\\plugins.js"
+			],
+			[
+				"view/plugin.sj",
+				"views\\plugins.js"
+			],
+			[
+				"style",
+				"style.sass"
+			],
+			[
+				"views/plug",
+				"views\\plugins.coffee"
+			],
+			[
+				"todo.sass",
+				"plugins\\todo\\todo.sass"
+			],
+			[
+				"lap",
+				"laptop.bat"
+			],
+			[
+				"view/p",
+				"views\\plugins.coffee"
+			],
+			[
+				".jq",
+				"loading.jquery.coffee"
+			],
+			[
+				"task.js",
+				"plugins\\task\\task.js"
+			],
+			[
+				"index.html",
+				"index.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 267.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

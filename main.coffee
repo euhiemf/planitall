@@ -84,20 +84,30 @@ class PluginBluepint extends Backbone.Model
 			# load assets
 			status = @model.get('assets-status')
 
-			# $('.plugin').loading().hide()
-			# $('.plugin').loading(false).show()
+			$('.plugin').loading().hide()
 
 			# call func
 
-
-			@model.once 'assets-loaded', =>
+			run = () =>
 				func.apply @context, args
+
+				$('.plugin').loading(false).show()
+				
+
 				# add what to clear
 				app.clearer.add('unset', 'html', '.plugin')
 				app.clearer.add 'execute', 'function', (=> @model.set('assets-status', 0)), { domain: 'plugin.' + @model.get('id') }
 
 
-			if status is 0 then app.get('plugin').loadAssets @model else if status is 1 then @model.trigger('assets-loaded')
+			@model.once 'assets-loaded', run
+
+			if status is 0 then @loadAssets() else if status is 1 then run()
+
+
+		loadAssets: ->
+
+			app.get('plugin').loadAssets @model
+
 
 
 	bpm: class extends Backbone.Model
@@ -184,7 +194,16 @@ class Plugin extends Backbone.Model
 		image: {} 
 		stylesheet: {}
 		template: {}
+	globalAssets: 
+		js: {}
+		image: {} 
+		stylesheet: {}
+		template: {}
 
+	getGlobalAsset: (type, path) ->
+		return @globalAssets[type][path]
+	getLocalAsset: (type, path) ->
+		return @localAssets[type][path]
 	getAsset: (type, path) ->
 		return @localAssets[type][path]
 
@@ -218,19 +237,18 @@ class Plugin extends Backbone.Model
 	isLocal: (data) ->
 		(not data.local and not data.global) or (data.local and not data.global)
 
-	import: (data, model) ->
+	import: (data, model, scopeOverwrite) ->
 		if not data.local and not data.global then data.local = true
 
-		if data.local
-			@local[data.import.name] = data.import
+		scope = if data.local then 'local' else 'global'
 
-			app.clearer.add 'remove', 'object', { base: @local, key: data.import.name }, { domain: 'plugin.' + model.get('id') }
+		if @[scope].hasOwnProperty(data.import.name) then console.log('A key with the name of ' + data.import.name + ' does already exist in global, will not import it!') else @[scope][data.import.name] = data.import
+		if data.local then app.clearer.add 'remove', 'object', { base: @local, key: data.import.name }, { domain: 'plugin.' + model.get('id') }
 
-		else if data.global
-			if @global.hasOwnProperty(data.import.name)
-				console.log 'A key with the name of ' + data.import.name + ' does already exist in global, will not import it!'
-			else
-				@global[data.import.name] = data.import
+		if data.assets
+			@loadImportAssets data.assets, scope, model
+			
+
 
 	initialize: ->
 
@@ -338,20 +356,25 @@ class Plugin extends Backbone.Model
 
 
 
-	loadAssets: (model) ->
+	loadImportAssets: (assets, scope, model) ->
+		@loopAssets assets, model, scope, true
+		# console.log 'will import the assets', scope, model
 
 
-		assets = model.get('assets')
+	loopAssets: (assets, model, scopeOverwrite = 'local', silent = false) ->
+
+		for type, value of assets
+
+			args = [type, model, scopeOverwrite, silent]
+
+			if Array.isArray(value) then @load(fname, args...) for fname in value else @load(value, args...)
+
+	loadAssets: (model, assets = model.get('assets')) ->
 
 		model.set('assetsLength', 0)
 		model.set('loadedAssetsCount', 0)
 
-
-		for type, value of assets
-
-			args = [type, model]
-
-			if Array.isArray(value) then @load(fname, args...) for fname in value else @load(value, args...)
+		@loopAssets(assets, model)
 
 		@listenTo model, 'change:loadedAssetsCount', (m, value) =>
 			if value is m.get('assetsLength') then @assetsLoaded(m)
@@ -363,14 +386,16 @@ class Plugin extends Backbone.Model
 
 
 
-	parseImport: (properties, model, path) ->
+	parseImport: (properties, model, path, scope, silent) ->
 		# the script file should at this point have been parsed by the web brwower
-		if Array.isArray(properties) then @import arrdata, model for arrdata in properties else @import properties, model
 
-		if @isAllGlobal properties then @cache @getUrl(path, model)
+		args = [model, scope]
 
+		if Array.isArray(properties) then @import arrdata, args... for arrdata in properties else @import properties, args...
 
-		model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1)
+		if @isAllGlobal properties or scope is 'global' then @cache @getUrl(path, model)
+
+		if not silent then model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1)
 
 
 	assetsLoaded: (model) =>
@@ -383,6 +408,15 @@ class Plugin extends Backbone.Model
 
 
 
+	addAsset: (args..., scope) ->
+
+		if scope is 'local' then @addLocalAsset args... else @addGlobalAsset args...
+
+	addGlobalAsset: (type, path, what, model) ->
+		@globalAssets[type][path] = what
+		cacheId = @cache @getUrl(path, model)
+
+
 	addLocalAsset: (type, path, what, model) ->
 		@localAssets[type][path] = what
 
@@ -393,7 +427,7 @@ class Plugin extends Backbone.Model
 
 
 	loadfuncs:
-		js: (data, id, type, path, model) ->
+		js: (data, id, type, path, model, scopeOverwrite, silent) ->
 
 			blob = new Blob [data], 
 				type: 'text/javascript' 
@@ -408,11 +442,10 @@ class Plugin extends Backbone.Model
 
 			app.clearer.add('remove', 'html', element)
 
-			model.get('imports').once 'loaded:' + path, @parseImport, @
+			model.get('imports').once 'loaded:' + path, do (scopeOverwrite) => (properties, model, path) =>
+				@parseImport(properties, model, path, scopeOverwrite)
 
-			@addLocalAsset(type, path, element, model)
-
-		stylesheet: (data, id, type, path, model) ->
+		stylesheet: (data, id, type, path, model, scopeOverwrite, silent) ->
 			blob = new Blob [data], 
 				type: 'text/css'
 
@@ -427,14 +460,9 @@ class Plugin extends Backbone.Model
 
 			app.clearer.add('remove', 'html', element)
 
+			if not silent then model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
 
-			@addLocalAsset(type, path, element, model)
-
-
-
-			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
-
-		image: (data, id, type, path, model) ->
+		image: (data, id, type, path, model, scopeOverwrite, silent) ->
 
 			ext = path.split('.')
 			ext = ext[ext.length - 1].toLowerCase()
@@ -445,22 +473,22 @@ class Plugin extends Backbone.Model
 			url = URL.createObjectURL(blob)
 
 
-			@addLocalAsset(type, path, url, model)
+			@addAsset(type, path, url, model, scopeOverwrite)
 
-			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
+			if not silent then model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
 
-		template: (data, id, type, path, model) ->
+		template: (data, id, type, path, model, scopeOverwrite, silent) ->
 
-			@addLocalAsset(type, path, _.template(data), model)
+			@addAsset(type, path, _.template(data), model, scopeOverwrite)
 
-			model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
+			if not silent then model.set 'loadedAssetsCount', model.get('loadedAssetsCount') + 1
 
 
 	getUrl: (path, model) ->
 		id = model.get('id')
 		return "./plugins/#{id}/#{path}"
 
-	load: (path, type, model) ->
+	load: (path, type, model, scopeOverwrite, silent) ->
 
 
 		if typeof path isnt 'string' then path = path.path
@@ -469,16 +497,16 @@ class Plugin extends Backbone.Model
 
 		if @inCache url then return console.log path + ' didnt import, cause cached'
 
-		model.set('assetsLength', model.get('assetsLength') + 1)
+		if not silent then model.set('assetsLength', model.get('assetsLength') + 1)
 
 		# IF xhr loads faster than javascript execution, this code will break
 
 		id = model.get('id')
 
 		xhr = $.ajax
-			success: do (path, id, model, type) => (data, status, jqXHR) =>
+			success: do (path, id, model, type, scopeOverwrite, silent) => (data, status, jqXHR) =>
 
-				@loadfuncs[type].call @, data, id, type, path, model
+				@loadfuncs[type].call @, data, id, type, path, model, scopeOverwrite, silent
 
 
 			error: do (model) -> (jqXHR, status, error) ->

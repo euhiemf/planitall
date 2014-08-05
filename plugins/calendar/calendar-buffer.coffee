@@ -1,8 +1,9 @@
 class Calendar extends Backbone.View
 
-	initialize: (@template, el) ->
+	initialize: ->
 
-		@setElement el
+		
+
 
 	print: ->
 
@@ -54,6 +55,8 @@ app.get('plugin').get('calendar').get('imports').set('calendar-buffer.js', [
 	{
 		global: true
 		import: Calendar
+		assets:
+			template: 'calendar.template.html'
 	}
 
 

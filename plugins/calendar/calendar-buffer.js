@@ -11,10 +11,7 @@
       return Calendar.__super__.constructor.apply(this, arguments);
     }
 
-    Calendar.prototype.initialize = function(template, el) {
-      this.template = template;
-      return this.setElement(el);
-    };
+    Calendar.prototype.initialize = function() {};
 
     Calendar.prototype.print = function() {
       var content, first_date, i, last_date, mominst, row, rows, _i;
@@ -58,7 +55,10 @@
   app.get('plugin').get('calendar').get('imports').set('calendar-buffer.js', [
     {
       global: true,
-      "import": Calendar
+      "import": Calendar,
+      assets: {
+        template: 'calendar.template.html'
+      }
     }
   ]);
 

@@ -18,7 +18,8 @@
       title: 'Tasks',
       navigatable: true,
       assets: {
-        template: 'new.template.html'
+        template: 'new.template.html',
+        js: 'views/new.js'
       },
       submenus: [
         {
@@ -60,9 +61,12 @@
 
     TaskView.prototype.renderNew = function() {
       return this.render.blit(function() {
-        var template;
-        template = Plugin.getAsset('template', 'new.template.html');
-        return this.$el.html(template());
+        var tn;
+        tn = new Plugin.local.New({
+          el: this.el
+        });
+        tn.template = Plugin.getAsset('template', 'new.template.html');
+        return tn.render();
       });
     };
 

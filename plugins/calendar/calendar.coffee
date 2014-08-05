@@ -24,10 +24,8 @@ class CalendarView extends Plugin.Blueprint.get('view')
 
 	renderMain: -> @render.blit ->
 
-		template = Plugin.getAsset('template', 'calendar.template.html')
-		buffer = new Plugin.global.Calendar template, @el
-
-		buffer.print()
+		buffer = new Plugin.global.Calendar {el: @el}
+		# buffer.print()
 
 
 

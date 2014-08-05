@@ -121,15 +121,17 @@
       }
 
       _Class.prototype.blit = function() {
-        var args, func, status;
+        var args, func, run, status;
         func = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
         app.clearer.clear({
           ignore: ['plugin.' + this.model.get('id')]
         });
         status = this.model.get('assets-status');
-        this.model.once('assets-loaded', (function(_this) {
+        $('.plugin').loading().hide();
+        run = (function(_this) {
           return function() {
             func.apply(_this.context, args);
+            $('.plugin').loading(false).show();
             app.clearer.add('unset', 'html', '.plugin');
             return app.clearer.add('execute', 'function', (function() {
               return _this.model.set('assets-status', 0);
@@ -137,12 +139,17 @@
               domain: 'plugin.' + _this.model.get('id')
             });
           };
-        })(this));
+        })(this);
+        this.model.once('assets-loaded', run);
         if (status === 0) {
-          return app.get('plugin').loadAssets(this.model);
+          return this.loadAssets();
         } else if (status === 1) {
-          return this.model.trigger('assets-loaded');
+          return run();
         }
+      };
+
+      _Class.prototype.loadAssets = function() {
+        return app.get('plugin').loadAssets(this.model);
       };
 
       return _Class;
@@ -239,6 +246,21 @@
       template: {}
     };
 
+    Plugin.prototype.globalAssets = {
+      js: {},
+      image: {},
+      stylesheet: {},
+      template: {}
+    };
+
+    Plugin.prototype.getGlobalAsset = function(type, path) {
+      return this.globalAssets[type][path];
+    };
+
+    Plugin.prototype.getLocalAsset = function(type, path) {
+      return this.localAssets[type][path];
+    };
+
     Plugin.prototype.getAsset = function(type, path) {
       return this.localAssets[type][path];
     };
@@ -282,24 +304,27 @@
       return (!data.local && !data.global) || (data.local && !data.global);
     };
 
-    Plugin.prototype["import"] = function(data, model) {
+    Plugin.prototype["import"] = function(data, model, scopeOverwrite) {
+      var scope;
       if (!data.local && !data.global) {
         data.local = true;
       }
+      scope = data.local ? 'local' : 'global';
+      if (this[scope].hasOwnProperty(data["import"].name)) {
+        console.log('A key with the name of ' + data["import"].name + ' does already exist in global, will not import it!');
+      } else {
+        this[scope][data["import"].name] = data["import"];
+      }
       if (data.local) {
-        this.local[data["import"].name] = data["import"];
-        return app.clearer.add('remove', 'object', {
+        app.clearer.add('remove', 'object', {
           base: this.local,
           key: data["import"].name
         }, {
           domain: 'plugin.' + model.get('id')
         });
-      } else if (data.global) {
-        if (this.global.hasOwnProperty(data["import"].name)) {
-          return console.log('A key with the name of ' + data["import"].name + ' does already exist in global, will not import it!');
-        } else {
-          return this.global[data["import"].name] = data["import"];
-        }
+      }
+      if (data.assets) {
+        return this.loadImportAssets(data.assets, scope, model);
       }
     };
 
@@ -418,23 +443,46 @@
       return app.clearer.add('unset', 'html', '.plugin');
     };
 
-    Plugin.prototype.loadAssets = function(model) {
-      var args, assets, fname, type, value, _i, _len;
-      assets = model.get('assets');
-      model.set('assetsLength', 0);
-      model.set('loadedAssetsCount', 0);
+    Plugin.prototype.loadImportAssets = function(assets, scope, model) {
+      return this.loopAssets(assets, model, scope, true);
+    };
+
+    Plugin.prototype.loopAssets = function(assets, model, scopeOverwrite, silent) {
+      var args, fname, type, value, _results;
+      if (scopeOverwrite == null) {
+        scopeOverwrite = 'local';
+      }
+      if (silent == null) {
+        silent = false;
+      }
+      _results = [];
       for (type in assets) {
         value = assets[type];
-        args = [type, model];
+        args = [type, model, scopeOverwrite, silent];
         if (Array.isArray(value)) {
-          for (_i = 0, _len = value.length; _i < _len; _i++) {
-            fname = value[_i];
-            this.load.apply(this, [fname].concat(__slice.call(args)));
-          }
+          _results.push((function() {
+            var _i, _len, _results1;
+            _results1 = [];
+            for (_i = 0, _len = value.length; _i < _len; _i++) {
+              fname = value[_i];
+              _results1.push(this.load.apply(this, [fname].concat(__slice.call(args))));
+            }
+            return _results1;
+          }).call(this));
         } else {
-          this.load.apply(this, [value].concat(__slice.call(args)));
+          _results.push(this.load.apply(this, [value].concat(__slice.call(args))));
         }
       }
+      return _results;
+    };
+
+    Plugin.prototype.loadAssets = function(model, assets) {
+      if (assets == null) {
+        assets = model.get('assets');
+      }
+      model.set('assetsLength', 0);
+      model.set('loadedAssetsCount', 0);
+      this.loopAssets(assets, model);
       this.listenTo(model, 'change:loadedAssetsCount', (function(_this) {
         return function(m, value) {
           if (value === m.get('assetsLength')) {
@@ -447,20 +495,23 @@
       }
     };
 
-    Plugin.prototype.parseImport = function(properties, model, path) {
-      var arrdata, _i, _len;
+    Plugin.prototype.parseImport = function(properties, model, path, scope, silent) {
+      var args, arrdata, _i, _len;
+      args = [model, scope];
       if (Array.isArray(properties)) {
         for (_i = 0, _len = properties.length; _i < _len; _i++) {
           arrdata = properties[_i];
-          this["import"](arrdata, model);
+          this["import"].apply(this, [arrdata].concat(__slice.call(args)));
         }
       } else {
-        this["import"](properties, model);
+        this["import"].apply(this, [properties].concat(__slice.call(args)));
       }
-      if (this.isAllGlobal(properties)) {
+      if (this.isAllGlobal(properties || scope === 'global')) {
         this.cache(this.getUrl(path, model));
       }
-      return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
+      if (!silent) {
+        return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
+      }
     };
 
     Plugin.prototype.assetsLoaded = function(model) {
@@ -468,6 +519,22 @@
       model.set('assets-status', 1);
       model.trigger('assets-loaded');
       return $('.plugin').loading(false).show();
+    };
+
+    Plugin.prototype.addAsset = function() {
+      var args, scope, _i;
+      args = 2 <= arguments.length ? __slice.call(arguments, 0, _i = arguments.length - 1) : (_i = 0, []), scope = arguments[_i++];
+      if (scope === 'local') {
+        return this.addLocalAsset.apply(this, args);
+      } else {
+        return this.addGlobalAsset.apply(this, args);
+      }
+    };
+
+    Plugin.prototype.addGlobalAsset = function(type, path, what, model) {
+      var cacheId;
+      this.globalAssets[type][path] = what;
+      return cacheId = this.cache(this.getUrl(path, model));
     };
 
     Plugin.prototype.addLocalAsset = function(type, path, what, model) {
@@ -489,7 +556,7 @@
     };
 
     Plugin.prototype.loadfuncs = {
-      js: function(data, id, type, path, model) {
+      js: function(data, id, type, path, model, scopeOverwrite, silent) {
         var blob, element, url;
         blob = new Blob([data], {
           type: 'text/javascript'
@@ -504,10 +571,15 @@
           cache: false
         });
         app.clearer.add('remove', 'html', element);
-        model.get('imports').once('loaded:' + path, this.parseImport, this);
-        return this.addLocalAsset(type, path, element, model);
+        return model.get('imports').once('loaded:' + path, (function(_this) {
+          return function(scopeOverwrite) {
+            return function(properties, model, path) {
+              return _this.parseImport(properties, model, path, scopeOverwrite);
+            };
+          };
+        })(this)(scopeOverwrite));
       },
-      stylesheet: function(data, id, type, path, model) {
+      stylesheet: function(data, id, type, path, model, scopeOverwrite, silent) {
         var blob, element, url;
         blob = new Blob([data], {
           type: 'text/css'
@@ -522,10 +594,11 @@
           cache: false
         });
         app.clearer.add('remove', 'html', element);
-        this.addLocalAsset(type, path, element, model);
-        return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
+        if (!silent) {
+          return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
+        }
       },
-      image: function(data, id, type, path, model) {
+      image: function(data, id, type, path, model, scopeOverwrite, silent) {
         var blob, ext, url;
         ext = path.split('.');
         ext = ext[ext.length - 1].toLowerCase();
@@ -533,12 +606,16 @@
           type: 'image/' + ext
         });
         url = URL.createObjectURL(blob);
-        this.addLocalAsset(type, path, url, model);
-        return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
+        this.addAsset(type, path, url, model, scopeOverwrite);
+        if (!silent) {
+          return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
+        }
       },
-      template: function(data, id, type, path, model) {
-        this.addLocalAsset(type, path, _.template(data), model);
-        return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
+      template: function(data, id, type, path, model, scopeOverwrite, silent) {
+        this.addAsset(type, path, _.template(data), model, scopeOverwrite);
+        if (!silent) {
+          return model.set('loadedAssetsCount', model.get('loadedAssetsCount') + 1);
+        }
       }
     };
 
@@ -548,7 +625,7 @@
       return "./plugins/" + id + "/" + path;
     };
 
-    Plugin.prototype.load = function(path, type, model) {
+    Plugin.prototype.load = function(path, type, model, scopeOverwrite, silent) {
       var id, url, xhr;
       if (typeof path !== 'string') {
         path = path.path;
@@ -557,16 +634,18 @@
       if (this.inCache(url)) {
         return console.log(path + ' didnt import, cause cached');
       }
-      model.set('assetsLength', model.get('assetsLength') + 1);
+      if (!silent) {
+        model.set('assetsLength', model.get('assetsLength') + 1);
+      }
       id = model.get('id');
       return xhr = $.ajax({
         success: (function(_this) {
-          return function(path, id, model, type) {
+          return function(path, id, model, type, scopeOverwrite, silent) {
             return function(data, status, jqXHR) {
-              return _this.loadfuncs[type].call(_this, data, id, type, path, model);
+              return _this.loadfuncs[type].call(_this, data, id, type, path, model, scopeOverwrite, silent);
             };
           };
-        })(this)(path, id, model, type),
+        })(this)(path, id, model, type, scopeOverwrite, silent),
         error: (function(model) {
           return function(jqXHR, status, error) {
             $('.plugin').loading(false).show();

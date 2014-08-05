@@ -44,10 +44,10 @@
 
     CalendarView.prototype.renderMain = function() {
       return this.render.blit(function() {
-        var buffer, template;
-        template = Plugin.getAsset('template', 'calendar.template.html');
-        buffer = new Plugin.global.Calendar(template, this.el);
-        return buffer.print();
+        var buffer;
+        return buffer = new Plugin.global.Calendar({
+          el: this.el
+        });
       });
     };
 

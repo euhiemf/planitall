@@ -8,6 +8,7 @@ class Task extends Plugin.Blueprint.get('model')
 		navigatable: true
 		assets:
 			template: 'new.template.html'
+			js: 'views/new.js'
 
 		submenus: [
 			{
@@ -27,6 +28,8 @@ class TaskView extends Plugin.Blueprint.get('view')
 
 		@render.on('user-request-main', @renderMain, @)
 
+
+
 	renderMain: -> @render.blit ->
 		@$el.html('<h2>Task main</h2>')
 
@@ -34,8 +37,16 @@ class TaskView extends Plugin.Blueprint.get('view')
 		@$el.html('<h2>Task list</h2>')
 
 	renderNew: -> @render.blit ->
-		template = Plugin.getAsset('template', 'new.template.html')
-		@$el.html template()
+
+		tn = new Plugin.local.New
+			el: @el
+
+		tn.template = Plugin.getAsset('template', 'new.template.html')
+		tn.render()
+
+
+
+
 
 
 class TaskRouter extends Plugin.Blueprint.get('router')

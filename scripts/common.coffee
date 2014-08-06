@@ -10,7 +10,6 @@ requirejs.config
 		'localstorage': 'backbone/backbone.localStorage'
 		'jquery': 'jquery/jquery'
 
-
 		'dotjs': 'doT.min'
 
 		'dot': 'require/dot'

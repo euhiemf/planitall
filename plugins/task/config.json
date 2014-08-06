@@ -1,3 +1,13 @@
 {
-	"whatava": "this is part of task"
+	"title": "Tasks",
+	"submenus": [
+		{
+			"link": "list",
+			"title": "Show a list of tasks"
+		},
+		{
+			"link": "new",
+			"title": "Create a new"
+		}
+	]
 }

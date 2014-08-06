@@ -1,16 +1,5 @@
 {
-	"something": "some another for calendar",
 	"title": "Calendar",
 	"navigatable": true,
-	"main": "cs!calendar",
-
-	"assets": {
-		"stylesheet": "calendar.css",
-		"template": "calendar.template.html",
-		"js": {
-			"path": "calendar-buffer.js",
-			"preload": true
-		}
-	}
-
+	"main": "cs!calendar"
 }

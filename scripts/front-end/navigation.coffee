@@ -1,4 +1,4 @@
-define ['backbone', 'dot!app/front-end/menu-item'], (Backbone, menuItemTemplate) ->
+define ['backbone', 'jquery', 'dot!app/front-end/menu-item'], (Backbone, $, menuItemTemplate) ->
 
 	class Navigation extends Backbone.View
 

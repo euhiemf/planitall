@@ -1,12 +1,13 @@
 {{ var link = it.stripLink(it.link); }}
 
-<li id="{{= it.id }}" data-selectable-id='{{= it.link }}' data-index='{{= it.index }}' class='selectable{{? haveSubMenu }} submenual{{??}} nosubmenu{{?}}'><a href='#{{= it.link }}'>{{= it.title }}</a>{{? haveSubMenu }}
+<li id="{{= it.id }}" data-selectable-id='{{= it.link }}' data-index='{{= it.index }}' class='selectable{{? it.haveSubMenu }} submenual{{??}} nosubmenu{{?}}'><a href='#{{= it.link }}'>{{= it.title }}</a>{{? it.haveSubMenu }}
 
 	<ul class='sub-menu'>
-		{{ for (var i = 0, sublink; i < submenus.length; i++) { }}
-			{{ sublink = link + '/' + stripLink(submenus[i].link); }}
-			<li data-selectable-id='{{= it.sublink }}' class='selectable'><a href='#{{= it.sublink }}'>{{= it.submenus[i].title }}</a></li>
-		{{ } }}
+		{{ var sublink; }}
+		{{~it.submenus :value}}
+			{{ sublink = link + '/' + it.stripLink(value.link); }}
+			<li data-selectable-id='{{= it.sublink }}' class='selectable'><a href='#{{= it.sublink }}'>{{= value.title }}</a></li>
+		{{~}}
 	</ul>
 
 {{?}}</li>

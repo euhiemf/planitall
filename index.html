@@ -15,33 +15,14 @@
 		<h2 class='title'>planitall</h2>
 
 		<nav class='navigation'>
-			<ul class='main-navigation'></ul>
+			<ul class='main-navigation'>
+				<li id="home" data-selectable-id="home" data-index="0" class="selectable nosubmenu"><a href="#home">Home</a></li>
+				<li id="plugins" data-selectable-id="plugins" data-index="1" class="selectable nosubmenu"><a href="#plugins">Plugins</a></li>
+			</ul>
 		</nav>
 
 		<div class="content"></div>
 		<div class="plugin"></div>
-
-		<script type="text/template" id="home" class='side'>
-			this is the homepage!
-		</script>
-
-		<script type="text/template" id='menu-item' class='navigational'>
-
-			<% link = stripLink(link) %>
-			<li id="<%= id %>" data-selectable-id='<%= link %>' data-index='<%= index %>' class='selectable<% if (haveSubMenu) print(' submenual'); else print(' nosubmenu') %>'><a href='#<%= link %>'><%= title %></a><% if (haveSubMenu) { %>
-
-				<ul class='sub-menu'>
-					<% for (var i = 0, sublink; i < submenus.length; i++) { %>
-						<% sublink = link + '/' + stripLink(submenus[i].link); %>
-						<li data-selectable-id='<%= sublink %>' class='selectable'><a href='#<%= sublink %>'><%= submenus[i].title %></a></li>
-					<% } %>
-				</ul>
-
-			<% } %></li>
-
-
-		</script>
-
 
 		<script type="text/template" id="plugins" class='side'>
 			<ul class="plugins">

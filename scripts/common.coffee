@@ -59,4 +59,13 @@ requirejs.config
 
 
 
-requirejs ['cs!app/app']
+requirejs ['backbone', 'cs!app/app', 'cs!app/events'], (Backbone, app, events) ->
+
+
+		events.on 'plugins-loaded', ->
+			Backbone.history.start()
+
+
+		
+		events.trigger('instantialized')
+

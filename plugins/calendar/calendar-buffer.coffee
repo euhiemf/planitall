@@ -1,63 +1,53 @@
-class Calendar extends Backbone.View
+define ['backbone', 'moment', 'dot!plugins/calendar/calendar'], (Backbone, moment, template) ->
 
-	initialize: ->
+	class Calendar extends Backbone.View
 
-		
+		initialize: ->
+			# console.log @$el.html
 
+		print: =>
 
-	print: ->
+			rows = []
 
-		rows = []
+			mominst = moment().startOf('month')
 
-		mominst = moment().startOf('month')
-
-		first_date = mominst.clone().startOf('month')
-		last_date = mominst.clone().endOf('month')
-
-
-		mominst.day(0)
-		while true
-
-			row =
-				title: mominst.format('w')
-				cols: []
-
-			for i in [0..6]
-
-				row.cols.push
-					value: mominst.format('D')
-					attributes: {
-						stamp: mominst.format('X')
-						month: mominst.month()
-					}
-
-				mominst.add(1, 'day')
+			first_date = mominst.clone().startOf('month')
+			last_date = mominst.clone().endOf('month')
 
 
+			mominst.day(0)
+			while true
 
-			rows.push(row)
+				row =
+					title: mominst.format('w')
+					cols: []
 
-			if mominst.isAfter(last_date) then break
+				for i in [0..6]
 
+					row.cols.push
+						value: mominst.format('D')
+						attributes: {
+							stamp: mominst.format('X')
+							month: mominst.month()
+						}
 
-		content = @template
-			rows: rows
-			title: first_date.format('MMMM')
-			month: first_date.month()
-
-
-		@$el.html content
+					mominst.add(1, 'day')
 
 
 
-app.get('plugin').get('calendar').get('imports').set('calendar-buffer.js', [
+				rows.push(row)
 
-	{
-		global: true
-		import: Calendar
-		assets:
-			template: 'calendar.template.html'
-	}
+				if mominst.isAfter(last_date) then break
 
 
-])
+			content = template
+				rows: rows
+				title: first_date.format('MMMM')
+				month: first_date.month()
+				moment: moment
+
+
+			@$el.html content
+
+
+

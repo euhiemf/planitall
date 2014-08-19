@@ -1,36 +1,66 @@
-define ['require', 'exports', 'backbone', 'cs!app/app'], (req, exp) ->
+
+
+dependencies = [
+
+	'require',
+	'backbone',
+
+	'cs!app/events'
+
+	'cs!app/plugin-loader'
+
+	'cs!app/clearer'
+
+]
+
+define dependencies, (req) ->
 
 	Backbone = req 'backbone'
+	events = req 'cs!app/events'
+	pl = req 'cs!app/plugin-loader'
+
+	clearer = req 'cs!app/clearer'
 
 	class Router extends Backbone.Router
 
 		initialize: ->
+
+			events.on 'navigation-rendered', @setupNav, @
+
+			@on 'route', ->
+
+				# clearer.clear location.hash.substr(1)
+
+
+
+		setupNav: ->
+
+
+			nav = req 'cs!app/front-end/navigation'
+
+
 			@on 'route', (page, params) ->
+				nav.select(page, params)
 
-				# instances = req 'cs!app/app'
-				# console.log instances
-				console.log 'navigating to', page
+			events.trigger('navigation-done')
 
 
-		test: ->
-
-			instances = req 'cs!app/app'
-			console.log instances
 
 		routes:
 			'plugins': 'plugins'
-			'plugin/:action/:id': 'plugins'
+			'plugins/:id': 'plugins'
 			'home': 'home'
 			'*anything': 'gohome'
 
-		'plugins': ->
-			# app.get('views').get('plugins').render()
-			console.log 'will render plugins'
 
 
 
-		'plugin': (action, id) ->
-			console.log 'will', action, 'with', id
+		'plugins': (id) ->
+			if not id then return events.trigger('render:cs!app/front-end/plugins-listing')
+			l = pl.findWhere { id: id }
+			events.trigger('render-plugin:' + id, l)
+
+
 
 
 		'gohome': ->
@@ -40,3 +70,5 @@ define ['require', 'exports', 'backbone', 'cs!app/app'], (req, exp) ->
 
 			# app.get('views').get('home').render()
 			console.log 'will render home'
+
+	new Router()

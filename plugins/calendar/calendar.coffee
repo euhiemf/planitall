@@ -1,48 +1,15 @@
-define ['backbone', 'moment'], (Backbone, moment) ->
+define ['backbone', 'cs!plugins/calendar/calendar-buffer', 'jquery'], (Backbone, Buffer, $) ->
 
-	class Calendar extends Backbone.View
+	# calendar = new Calendar
 
-		printCalendar: ->
+	element = $('.plugin')
 
-			rows = []
-
-			mominst = moment().startOf('month')
-
-			first_date = mominst.clone().startOf('month')
-			last_date = mominst.clone().endOf('month')
+	buffer = new Buffer({ el: element })
 
 
-			mominst.day(0)
-			while true
-
-				row =
-					title: mominst.format('w')
-					cols: []
-
-				for i in [0..6]
-
-					row.cols.push
-						value: mominst.format('D')
-						attributes: {
-							stamp: mominst.format('X')
-							month: mominst.month()
-						}
-
-					mominst.add(1, 'day')
-
-
-
-				rows.push(row)
-
-				if mominst.isAfter(last_date) then break
-
-
-			content = @template
-				rows: rows
-				title: first_date.format('MMMM')
-				month: first_date.month()
-
-
-			@$el.html content
+	element: element
+	render: buffer.print
+	assets:
+		css: 'calendar'
 
 

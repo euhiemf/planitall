@@ -6,7 +6,7 @@
 		{{ var sublink; }}
 		{{~it.submenus :value}}
 			{{ sublink = link + '/' + it.stripLink(value.link); }}
-			<li data-selectable-id='{{= it.sublink }}' class='selectable'><a href='#{{= it.sublink }}'>{{= value.title }}</a></li>
+			<li data-selectable-id='{{= sublink }}' class='selectable'><a href='#{{= sublink }}'>{{= value.title }}</a></li>
 		{{~}}
 	</ul>
 

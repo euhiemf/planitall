@@ -1,0 +1,61 @@
+<div class='calendar'>
+	<div class='header'>
+
+		<button class='left'></button>
+
+		<span class='header-text'>{{= it.title }}</span>
+
+		<span class='row-title-header'>W</span>
+
+		<button class='right'></button>
+
+
+	</div>
+	<div class='grid'>
+
+		{{ for (var h = 0, l, row, tile, type; h < it.rows.length; h++) { }}
+
+			{{ row = it.rows[h]; }}
+
+			<div class='row'>
+				{{ for (l = 0; l < row.cols.length; l++) { }}
+
+					{{ tile = row.cols[l]; }}
+
+					{{ type = 'tile'; }}
+
+					{{ if (tile.attributes.month < it.month) type += ' prev disabled'; }}
+					{{ if (tile.attributes.month > it.month) type += ' next disabled'; }}
+					<div class='{{= type }}'>
+
+						<span class='value'>
+
+							{{= tile.value }}
+
+						</span>
+
+					</div>
+
+				{{ } }}
+
+				<div class='row-title'>
+					<span class='value'>
+						{{= row.title }}
+					</span>
+				</div>
+			</div>
+
+
+		{{ } }}
+
+	</div>
+
+	<div class='footer'>
+		{{ var days = it.moment(); }}
+		{{ for (var d = 0, cls = 'tile', len = 7; d < len; d++) { }}
+			{{ if (d === len - 1) cls += ' last-tile'; }}
+			<div class='{{= cls }}'>{{= days.weekday(d).format('ddd') }}</div>
+		{{ } }}
+		<div class='settings'></div>
+	</div>
+</div>

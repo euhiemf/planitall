@@ -3,7 +3,7 @@
 	[
 		{
 			"follow_symlinks": true,
-			"path": "C:\\Users\\ac86459\\Git\\planitall",
+			"path": "../",
 			"file_exclude_patterns": ["*.js", "*.bat", "*.git*"],
 			"folder_exclude_patterns": [".sass-cache"]
 		}

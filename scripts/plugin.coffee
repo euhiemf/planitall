@@ -1,4 +1,4 @@
-define ['backbone', 'cs!path'], (Backbone, path) ->
+define ['backbone', 'cs!path', 'cs!app/clearer', 'cs!app/events', 'cs!app/assets'], (Backbone, path, clearer, events, Assets) ->
 
 	class Plugin extends Backbone.Model
 
@@ -16,7 +16,7 @@ define ['backbone', 'cs!path'], (Backbone, path) ->
 
 				@parseConfig()
 
-				@collection.trigger('config-loaded', @)
+				@trigger('config-loaded', @)
 
 
 		parseConfig: ->
@@ -37,12 +37,42 @@ define ['backbone', 'cs!path'], (Backbone, path) ->
 
 			main = plugin + path.join prepath, main
 
-			@load main
 
-		load: (path) ->
+			@collection.numberOfPlugins++
 
-			console.log path
-			# requirejs [path]
+			@load main, prepath
+
+		load: (path, prepath) ->
+
+			requirejs [path], do (prepath) => (plugin) =>
+
+
+				# view.setElement $('.plugin')
+
+				render = do (plugin, prepath) -> () ->
+
+					clearer.clear(prepath)
+
+					assets = new Assets(plugin.assets, prepath)
+
+					isf = (what, cb) ->
+						if typeof plugin[what] is 'function' then cb(what)
+
+					isf 'onload', -> assets.onload plugin.onload
+					isf 'render', -> assets.onload plugin.render
+					isf 'before', -> plugin.before()
+
+					assets.load()
+
+					clearer.add('clear', plugin.element, prepath)
+
+
+				events.on 'render-plugin:' + @get('id'), render
+
+				@trigger('plugin-loaded')
+
+
+				# plugin.render()
 
 
 

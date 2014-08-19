@@ -49,6 +49,11 @@
     }
   });
 
-  requirejs(['cs!app/app']);
+  requirejs(['backbone', 'cs!app/app', 'cs!app/events'], function(Backbone, app, events) {
+    events.on('plugins-loaded', function() {
+      return Backbone.history.start();
+    });
+    return events.trigger('instantialized');
+  });
 
 }).call(this);

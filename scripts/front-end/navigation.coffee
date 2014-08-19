@@ -1,4 +1,4 @@
-define ['backbone', 'jquery', 'dot!app/front-end/menu-item'], (Backbone, $, menuItemTemplate) ->
+define ['backbone', 'underscore', 'jquery', 'dot!app/front-end/menu-item'], (Backbone, _, $, menuItemTemplate) ->
 
 	class Navigation extends Backbone.View
 
@@ -54,5 +54,7 @@ define ['backbone', 'jquery', 'dot!app/front-end/menu-item'], (Backbone, $, menu
 			@addItem
 				id: 'nav-plugin-' + model.get('id')
 				title: model.get('title')
-				link: 'plugin/view/' + model.get('id')
+				link: 'plugins/' + model.get('id')
 				submenus: model.get('submenus')
+
+	new Navigation()

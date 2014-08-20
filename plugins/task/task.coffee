@@ -1,68 +1,51 @@
-Plugin = app.get('plugin')
 
-class Task extends Plugin.Blueprint.get('model')
+define ['backbone', 'jquery'], (Backbone, $) -> 
 
-	defaults:
-		id: 'task'
-		title: 'Tasks'
-		navigatable: true
-		assets:
-			template: 'new.template.html'
-			js: 'views/new.js'
+	class taskview extends Backbone.View
 
-		submenus: [
-			{
-				link: 'list'
-				title: 'Show a list of tasks'
-			}
-			{
-				link: 'new'
-				title: 'Create a new'
-			}
-		]
+		el: '.plugin'
 
+		rendermain: =>
+			@$el.html('<h2>task main</h2>')
 
-class TaskView extends Plugin.Blueprint.get('view')
+		renderlist: ->
+			@$el.html('<h2>task list</h2>')
 
-	initialize: ->
+		rendernew: ->
 
-		@render.on('user-request-main', @renderMain, @)
+			@$el.html('<h2>task new</h2>')
 
+			# tn = new plugin.local.new
+			# 	el: @el
 
-
-	renderMain: -> @render.blit ->
-		@$el.html('<h2>Task main</h2>')
-
-	renderList: -> @render.blit ->
-		@$el.html('<h2>Task list</h2>')
-
-	renderNew: -> @render.blit ->
-
-		tn = new Plugin.local.New
-			el: @el
-
-		tn.template = Plugin.getAsset('template', 'new.template.html')
-		tn.render()
+			# tn.template = plugin.getasset('template', 'new.template.html')
+			# tn.render()
 
 
 
 
 
+	view = new taskview
 
-class TaskRouter extends Plugin.Blueprint.get('router')
+	class taskrouter extends Backbone.Router
 
-	routes:
-		'list': 'render-list'
-		'new': 'render-new'
+		routes:
+			'plugins/task/list': 'render-list'
+			'plugins/task/new': 'render-new'
 
-	'render-list': ->
-		Plugin.get('task').view.renderList()
+		'render-list': ->
+			view.renderlist()
 
-	'render-new': ->
-		Plugin.get('task').view.renderNew()
-
-
-
+		'render-new': ->
+			view.rendernew()
 
 
-Plugin.new(Task).view(TaskView).router(TaskRouter)
+	new taskrouter
+
+
+	element: $('.plugin')
+	render: view.rendermain
+
+
+
+

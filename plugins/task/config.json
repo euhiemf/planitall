@@ -9,5 +9,6 @@
 			"link": "new",
 			"title": "Create a new"
 		}
-	]
+	],
+	"main": "cs!task"
 }

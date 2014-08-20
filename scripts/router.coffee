@@ -2,8 +2,10 @@
 
 dependencies = [
 
-	'require',
-	'backbone',
+	'require'
+	'backbone'
+
+	'jquery'
 
 	'cs!app/events'
 
@@ -18,6 +20,7 @@ define dependencies, (req) ->
 	Backbone = req 'backbone'
 	events = req 'cs!app/events'
 	pl = req 'cs!app/plugin-loader'
+	$ = req 'jquery'
 
 	clearer = req 'cs!app/clearer'
 
@@ -38,11 +41,11 @@ define dependencies, (req) ->
 
 			nav = req 'cs!app/front-end/navigation'
 
-
-			@on 'route', (page, params) ->
-				nav.select(page, params)
+			events.on 'route', nav.select
 
 			events.trigger('navigation-done')
+
+			nav.select()
 
 
 
@@ -67,8 +70,6 @@ define dependencies, (req) ->
 			@navigate 'home'
 
 		'home': ->
-
-			# app.get('views').get('home').render()
-			console.log 'will render home'
+			events.trigger('render:cs!app/front-end/home')
 
 	new Router()

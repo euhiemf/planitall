@@ -18,9 +18,7 @@ define ['backbone', 'underscore', 'jquery', 'dot!app/front-end/menu-item'], (Bac
 				window.location.hash = $(ev.target).children('a').eq(0).attr('href').substr(1)
 
 			
-		select: (page, params) =>
-
-			params = _.without params, null
+		select: =>
 
 			@$('ul li.selectable').each ->
 				$(@).removeClass('selected')

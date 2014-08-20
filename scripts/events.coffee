@@ -1,10 +1,13 @@
 
 
-define ['backbone'], (Backbone, clearer) ->
+define ['backbone', 'jquery'], (Backbone, $) ->
 
 	class Eventer extends Backbone.Model
 
 		initialize: ->
+
+			$(window).on 'hashchange', =>
+				@trigger 'route', window.location.hash.substr(1)
 
 			@on 'all', (ev) ->
 

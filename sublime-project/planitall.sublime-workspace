@@ -72,116 +72,58 @@
 	"buffers":
 	[
 		{
-			"file": "/C/Users/ac86459/Git/planitall/index.html",
-			"settings":
-			{
-				"buffer_size": 1077,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/functions.jquery.coffee",
-			"settings":
-			{
-				"buffer_size": 413,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/common.coffee",
-			"settings":
-			{
-				"buffer_size": 1349,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/front-end/home.coffee",
-			"settings":
-			{
-				"buffer_size": 204,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/app.coffee",
-			"settings":
-			{
-				"buffer_size": 742,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/router.coffee",
-			"settings":
-			{
-				"buffer_size": 1059,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/todo/todo.coffee",
-			"settings":
-			{
-				"buffer_size": 285,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/todo/todo-buffer.coffee",
-			"settings":
-			{
-				"buffer_size": 1067,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/todo/todo.sass",
-			"settings":
-			{
-				"buffer_size": 1271,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "/C/Users/ac86459/Git/planitall/plugins/task/task.coffee",
 			"settings":
 			{
-				"buffer_size": 1233,
+				"buffer_size": 1785,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/ac86459/Git/planitall/style.sass",
+			"contents": "event_definition = {\n\n	id: 'study'\n	name: 'Task'\n\n	creation: {\n\n	}\n\n\n\n\n\n}\n\nevent = {\n	start: 10293844\n	end: 230498504\n	runat: [\n		902384234\n		489203440\n		029348502\n		582093484\n		023984502\n		109838443\n		020392099\n		092384202\n	]\n	type: 'study'\n}",
 			"settings":
 			{
-				"buffer_size": 3917,
+				"buffer_size": 243,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Package Control Messages\n========================\n\nBetter CoffeeScript:\n-------------------\n\n  # Better CoffeeScript changelog\n  \n  ```\n  IF YOU SEE THIS MESSAGE\n  Because you have updated the plugin,\n  you might need to restart Sublime Text\n  if the syntax highlighter stopped working.\n  ```\n  \n  ## Version 2.1\n  \n  ### May 2014 Log\n  * Have been doing little improvements with the help of community\n  * Pull requests are always welcome and appreciated.\n  * Looking for active maintainer, will give pointers for development!!!\n  \n  \n  \n  ## Version 2.0\n  \n  Version 2.0 is out!\n  \n  ### Log:\n  * New written Watch Mode.\n  * Line number tracking in Watch Mode.\n  * Toggle 2 columns when enabling Watch Mode.\n  * It is possible to compile with sourcemaps.\n  * Compile litcofee files.\n  * Auto-indent after `else\\n`.\n  * and other bugs fixes.\n  \n  \n  \n",
+			"file": "/C/Users/ac86459/Git/planitall/scripts/front-end/plugins-listing.coffee",
 			"settings":
 			{
-				"buffer_size": 851,
-				"line_ending": "Windows",
-				"name": "Package Control Messages",
-				"scratch": true
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/_scheme.sass",
-			"settings":
-			{
-				"buffer_size": 591,
+				"buffer_size": 1434,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/task/new.template.dotjs",
+			"file": "/C/Users/ac86459/Git/planitall/plugins/events/events.coffee",
 			"settings":
 			{
-				"buffer_size": 732,
+				"buffer_size": 115,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/ac86459/Git/planitall/scripts/assets.coffee",
+			"settings":
+			{
+				"buffer_size": 1403,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/ac86459/Git/planitall/scripts/plugin.coffee",
+			"settings":
+			{
+				"buffer_size": 2016,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/ac86459/Git/planitall/plugins/events/config.json",
+			"settings":
+			{
+				"buffer_size": 44,
 				"line_ending": "Windows"
 			}
 		},
@@ -197,31 +139,15 @@
 			"file": "/C/Users/ac86459/Git/planitall/scripts/plugin-loader.coffee",
 			"settings":
 			{
-				"buffer_size": 703,
+				"buffer_size": 704,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/plugin.coffee",
+			"file": "/C/Users/ac86459/Git/planitall/scripts/app.coffee",
 			"settings":
 			{
-				"buffer_size": 1748,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/loading.coffee",
-			"settings":
-			{
-				"buffer_size": 321,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/assets.coffee",
-			"settings":
-			{
-				"buffer_size": 1242,
+				"buffer_size": 802,
 				"line_ending": "Windows"
 			}
 		},
@@ -232,81 +158,25 @@
 				"buffer_size": 1458,
 				"line_ending": "Windows"
 			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/events.coffee",
-			"settings":
-			{
-				"buffer_size": 530,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/scripts/front-end/plugins-listing.coffee",
-			"settings":
-			{
-				"buffer_size": 330,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/lib/path.coffee",
-			"settings":
-			{
-				"buffer_size": 614,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/config.json",
-			"settings":
-			{
-				"buffer_size": 70,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.coffee",
-			"settings":
-			{
-				"buffer_size": 1414,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.sass",
-			"settings":
-			{
-				"buffer_size": 2622,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/calendar-buffer.coffee",
-			"settings":
-			{
-				"buffer_size": 1082,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.dotjs",
-			"settings":
-			{
-				"buffer_size": 1285,
-				"line_ending": "Windows"
-			}
 		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 374.0,
+		"height": 242.0,
 		"selected_items":
 		[
 			[
 				"ssass",
 				"Set Syntax: Sass"
+			],
+			[
+				"sscoffe",
+				"Set Syntax: CoffeeScript"
+			],
+			[
+				"ssjs",
+				"Set Syntax: JavaScript"
 			],
 			[
 				"sass",
@@ -315,10 +185,6 @@
 			[
 				"sssass",
 				"Set Syntax: Sass"
-			],
-			[
-				"sscoffe",
-				"Set Syntax: CoffeeScript"
 			],
 			[
 				"sscofe",
@@ -373,7 +239,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 368.0
+		"width": 400.0
 	},
 	"console":
 	{
@@ -395,35 +261,55 @@
 	},
 	"file_history":
 	[
+		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/task/views/new.coffee",
+		"/C/Users/ac86459/Git/planitall/scripts/front-end/plugins-listing.sass",
+		"/C/Users/ac86459/Git/planitall/scripts/front-end/navigation.coffee",
+		"/C/Users/ac86459/Git/planitall/style.sass",
+		"/C/Users/ac86459/Git/planitall/_scheme.sass",
+		"/C/Users/ac86459/Git/planitall/scripts/app.coffee",
 		"/C/Users/ac86459/Git/planitall/views/plugins.coffee",
+		"/C/Users/ac86459/Git/planitall/scripts/plugin.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/task/new.template.dotjs",
+		"/C/Users/ac86459/Git/planitall/scripts/plugin-loader.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.dotjs",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar-buffer.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.sass",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/calendar/config.json",
+		"/C/Users/ac86459/Git/planitall/lib/path.coffee",
+		"/C/Users/ac86459/Git/planitall/scripts/front-end/plugins-listing.coffee",
+		"/C/Users/ac86459/Git/planitall/scripts/events.coffee",
+		"/C/Users/ac86459/Git/planitall/scripts/assets.coffee",
+		"/C/Users/ac86459/Git/planitall/scripts/loading.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/config.json",
+		"/C/Users/ac86459/Git/planitall/index.html",
+		"/C/Users/ac86459/Git/planitall/functions.jquery.coffee",
+		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/User/Preferences.sublime-settings",
+		"/C/Users/ac86459/Git/planitall/scripts/common.coffee",
+		"/C/Users/ac86459/Git/planitall/scripts/front-end/home.coffee",
+		"/C/Users/ac86459/Git/planitall/scripts/router.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/todo-buffer.coffee",
+		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.sass",
+		"/C/Users/ac86459/Git/planitall/plugins/task/task.coffee",
+		"/C/Users/ac86459/Git/planitall/font-awesome/less/bordered-pulled.less",
+		"/C/Users/ac86459/Git/planitall/font-awesome/scss/_bordered-pulled.scss",
 		"/C/Users/ac86459/Git/planitall/views/home.coffee",
 		"/C/Users/ac86459/Git/planitall/scripts/front-end/menu-item.dotjs",
 		"/C/Users/ac86459/Git/planitall/main.coffee",
 		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.css",
 		"/C/Users/ac86459/Git/planitall/scripts/clearer.coffee",
-		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.sass",
-		"/C/Users/ac86459/Git/planitall/plugins/task/views/new.coffee",
-		"/C/Users/ac86459/Git/planitall/scripts/front-end/plugins-listing.coffee",
 		"/C/Users/ac86459/Git/planitall/lib/backbone/underscore-min.map",
-		"/C/Users/ac86459/Git/planitall/_scheme.sass",
-		"/C/Users/ac86459/Git/planitall/scripts/events.coffee",
 		"/C/Users/ac86459/Git/planitall/plugins/task/config.json",
 		"/C/Users/ac86459/Git/planitall/font-awesome/css/font-awesome.css",
-		"/C/Users/ac86459/Git/planitall/scripts/common.coffee",
-		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar-buffer.coffee",
 		"/C/Users/ac86459/Git/planitall/lib/require/dot.coffee",
 		"/C/Users/ac86459/Git/planitall/plugins/task/new.template.html",
-		"/C/Users/ac86459/Git/planitall/plugins/calendar/config.json",
-		"/C/Users/ac86459/Git/planitall/plugins/todo/config.json",
 		"/C/Users/ac86459/Git/planitall/lib/backbone/backbone.localStorage.js",
 		"/C/Users/ac86459/Git/Backbone.localStorage/backbone.localStorage.js",
 		"/C/Users/ac86459/Git/planitall/font-awesome/less/larger.less",
-		"/C/Users/ac86459/Git/planitall/scripts/front-end/navigation.coffee",
 		"/C/Users/ac86459/Git/planitall/package.json",
-		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.coffee",
 		"/C/Users/ac86459/Git/planitall/lib/require/dot.js",
 		"/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.template.html",
-		"/C/Users/ac86459/Git/planitall/plugins/task/task.coffee",
 		"/C/Users/ac86459/Git/planitall/sublime-project/planitall.sublime-project",
 		"/C/Users/ac86459/Git/planitall/scripts/app.js",
 		"/C/Users/ac86459/Git/planitall/scripts/common.js",
@@ -435,8 +321,6 @@
 		"/C/Users/ac86459/Git/planitall/lib/backbone/backbone.js",
 		"/C/Users/ac86459/Git/planitall/lib/jquery/require_jquery.js",
 		"/C/Users/ac86459/Git/planitall/scripts/main.js",
-		"/C/Users/ac86459/Git/planitall/index.html",
-		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.coffee",
 		"/C/Users/ac86459/Git/planitall/main.js",
 		"/C/Users/ac86459/Git/planitall/jquery-min.js",
 		"/C/Users/ac86459/Git/planitall/font-awesome/less/rotated-flipped.less",
@@ -445,12 +329,9 @@
 		"/C/Users/ac86459/Git/planitall/plugins/todo/views/item.js",
 		"/C/Users/ac86459/Git/planitall/plugins/task/task.js",
 		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.js",
-		"/C/Users/ac86459/Git/planitall/plugins/todo/todo.sass",
-		"/C/Users/ac86459/Git/planitall/style.sass",
 		"/C/Users/ac86459/Git/planitall/laptop.bat",
 		"/C/Users/ac86459/Git/planitall/backbone-min.js",
 		"/C/Users/ac86459/Git/planitall/.gitignore",
-		"/C/Users/ac86459/Git/planitall/functions.jquery.coffee",
 		"/C/Users/ac86459/Git/planitall/views/plugins.js",
 		"/C/Users/ac86459/Git/planitall/views/calendar.coffee",
 		"/C/Users/ac86459/Git/planitall/calendar.css",
@@ -465,7 +346,6 @@
 		"/C/Users/ac86459/Git/planitall/destination",
 		"/C/Users/ac86459/Git/planitall/views/.gitignore",
 		"/C/Users/ac86459/Git/planitall/js/plugins/task/task.js",
-		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/User/Preferences.sublime-settings",
 		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/User/Default (Windows).sublime-keymap",
 		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/Default/Preferences.sublime-settings",
 		"/C/Users/ac86459/Program/Sublime Text/Data/Packages/Default/Default (Windows).sublime-keymap"
@@ -486,6 +366,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"addNew",
+			"checkCacheEl",
+			"datesel",
 			"month",
 			"time",
 			"data",
@@ -610,10 +493,7 @@
 			"loading(",
 			"postRender",
 			"'unset', 'html', '.plugin'",
-			"'assetsLoa",
-			"assetsLoad",
-			"assetsSta",
-			"navigatable"
+			"'assetsLoa"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -632,283 +512,24 @@
 	"groups":
 	[
 		{
-			"selected": 11,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/ac86459/Git/planitall/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1077,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								181,
-								181
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 22,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/Users/ac86459/Git/planitall/functions.jquery.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 413,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								251,
-								251
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 18,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/common.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1349,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1278,
-								1278
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 858.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/front-end/home.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 204,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								204,
-								204
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 23,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/app.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 742,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								405,
-								405
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 375.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/router.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1059,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								995,
-								995
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 883.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/todo/todo.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 285,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								194,
-								194
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 21,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/todo/todo-buffer.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1067,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1051,
-								1051
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1094.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 25,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/todo/todo.sass",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1271,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								593,
-								593
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 479.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 24,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
 					"file": "/C/Users/ac86459/Git/planitall/plugins/task/task.coffee",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1233,
+						"buffer_size": 1785,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								898,
-								898
+								406,
+								406
 							]
 						],
 						"settings":
@@ -917,359 +538,54 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 303.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "/C/Users/ac86459/Git/planitall/style.sass",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3917,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1071,
-								1071
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1217.0,
+						"translation.y": 2009.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 1,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 851,
+						"buffer_size": 243,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								851,
-								851
+								70,
+								70
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"word_wrap": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "/C/Users/ac86459/Git/planitall/_scheme.sass",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 591,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								525,
-								525
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 247.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/task/new.template.dotjs",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 732,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								377,
-								377
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/doTjs Template Syntax Highlighting/HTMLdotjs.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/todo/config.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 46,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 26,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/plugin-loader.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 703,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								202,
-								202
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 276.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 16,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/plugin.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1748,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1612,
-								1612
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1007.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 17,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/loading.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 321,
-						"regions":
-						{
-							"bookmark_k":
-							{
-								"flags": 144,
-								"regions":
-								[
-									[
-										267,
-										267
-									]
-								]
-							}
-						},
-						"selection":
-						[
-							[
-								57,
-								57
-							]
-						],
-						"settings":
-						{
-							"open_with_edit": true,
 							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 18,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/assets.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1242,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								244,
-								244
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 19,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/front-end/navigation.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1458,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								633,
-								633
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 371.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 20,
-					"type": "text"
-				},
-				{
-					"buffer": 20,
-					"file": "/C/Users/ac86459/Git/planitall/scripts/events.coffee",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 530,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								453,
-								453
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 89.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 21,
+					"buffer": 2,
 					"file": "/C/Users/ac86459/Git/planitall/scripts/front-end/plugins-listing.coffee",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 330,
+						"buffer_size": 1434,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								183,
-								183
-							],
-							[
-								330,
-								330
+								292,
+								292
 							]
 						],
 						"settings":
@@ -1284,20 +600,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 22,
-					"file": "/C/Users/ac86459/Git/planitall/lib/path.coffee",
+					"buffer": 3,
+					"file": "/C/Users/ac86459/Git/planitall/plugins/events/events.coffee",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 614,
+						"buffer_size": 115,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								157,
-								157
+								112,
+								112
 							]
 						],
 						"settings":
@@ -1309,24 +625,111 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 23,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/config.json",
+					"buffer": 4,
+					"file": "/C/Users/ac86459/Git/planitall/scripts/assets.coffee",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 70,
+						"buffer_size": 1403,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								65,
-								65
+								135,
+								135
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/ac86459/Git/planitall/scripts/plugin.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2016,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								145,
+								145
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/C/Users/ac86459/Git/planitall/plugins/events/config.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 44,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								41,
+								41
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/C/Users/ac86459/Git/planitall/plugins/todo/config.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 46,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								46
 							]
 						],
 						"settings":
@@ -1337,82 +740,53 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 27,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 24,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.coffee",
+					"buffer": 8,
+					"file": "/C/Users/ac86459/Git/planitall/scripts/plugin-loader.coffee",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1414,
+						"buffer_size": 704,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								949,
-								949
+								290,
+								290
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 421.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 25,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.sass",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2622,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								409,
-								409
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 26,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/calendar-buffer.coffee",
+					"buffer": 9,
+					"file": "/C/Users/ac86459/Git/planitall/scripts/app.coffee",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1082,
+						"buffer_size": 802,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								817,
-								817
+								646,
+								646
 							]
 						],
 						"settings":
@@ -1421,39 +795,39 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 525.0,
+						"translation.y": 349.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 27,
-					"file": "/C/Users/ac86459/Git/planitall/plugins/calendar/calendar.dotjs",
+					"buffer": 10,
+					"file": "/C/Users/ac86459/Git/planitall/scripts/front-end/navigation.coffee",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1285,
+						"buffer_size": 1458,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								715,
-								715
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/doTjs Template Syntax Highlighting/HTMLdotjs.tmLanguage",
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 288.0,
+						"translation.y": 650.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -1506,6 +880,74 @@
 		"selected_items":
 		[
 			[
+				"todo",
+				"plugins\\todo\\todo.coffee"
+			],
+			[
+				"plugin",
+				"scripts\\plugin.coffee"
+			],
+			[
+				"plugloa",
+				"scripts\\plugin-loader.coffee"
+			],
+			[
+				"plguin",
+				"scripts\\plugin.coffee"
+			],
+			[
+				"pluglis",
+				"scripts\\front-end\\plugins-listing.coffee"
+			],
+			[
+				"nav",
+				"scripts\\front-end\\navigation.coffee"
+			],
+			[
+				"app",
+				"scripts\\app.coffee"
+			],
+			[
+				"plugl",
+				"scripts\\plugin-loader.coffee"
+			],
+			[
+				"",
+				"scripts\\front-end\\plugins-listing.sass"
+			],
+			[
+				"navi",
+				"scripts\\front-end\\navigation.coffee"
+			],
+			[
+				"ssass",
+				"style.sass"
+			],
+			[
+				"asset",
+				"scripts\\assets.coffee"
+			],
+			[
+				"plgui",
+				"scripts\\plugin.coffee"
+			],
+			[
+				"plugins",
+				"views\\plugins.coffee"
+			],
+			[
+				"plugin.lo",
+				"scripts\\plugin-loader.coffee"
+			],
+			[
+				"task",
+				"plugins\\task\\task.coffee"
+			],
+			[
+				"fun",
+				"functions.jquery.coffee"
+			],
+			[
 				"style.sa",
 				"style.sass"
 			],
@@ -1518,24 +960,12 @@
 				"plugins\\calendar\\calendar.coffee"
 			],
 			[
-				"plugins",
-				"views\\plugins.coffee"
-			],
-			[
 				"events.",
 				"scripts\\events.coffee"
 			],
 			[
 				"plug.c",
 				"scripts\\plugin.coffee"
-			],
-			[
-				"plugin",
-				"scripts\\plugin.coffee"
-			],
-			[
-				"task",
-				"plugins\\task\\task.coffee"
 			],
 			[
 				"events",
@@ -1622,10 +1052,6 @@
 				"scripts\\front-end\\navigation.coffee"
 			],
 			[
-				"app",
-				"scripts\\app.coffee"
-			],
-			[
 				"assets",
 				"scripts\\assets.coffee"
 			],
@@ -1634,16 +1060,8 @@
 				"scripts\\plugin.coffee"
 			],
 			[
-				"todo",
-				"plugins\\todo\\todo.coffee"
-			],
-			[
 				"lugins",
 				"views\\plugins.coffee"
-			],
-			[
-				"fun",
-				"functions.jquery.coffee"
 			],
 			[
 				"calendabuff",
@@ -1684,10 +1102,6 @@
 			[
 				"comm",
 				"scripts\\common.coffee"
-			],
-			[
-				"asset",
-				"scripts\\assets.coffee"
 			],
 			[
 				"come.coffe",

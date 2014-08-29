@@ -1,4 +1,22 @@
-define ['backbone', 'cs!path', 'cs!app/clearer', 'cs!app/events', 'cs!app/assets'], (Backbone, path, clearer, events, Assets) ->
+
+
+### /Syntax/
+
+return 
+	render: [Function]
+	before: [Function] (done) ->
+		done()
+	assets:
+		css: 'relative path to css'
+
+	element: [DomElement]
+
+
+###
+
+
+
+define ['backbone', 'cs!path', 'cs!app/clearer', 'cs!app/events', 'cs!app/assets', 'cs!app/loading'], (Backbone, path, clearer, events, Assets, Loading) ->
 
 	class Plugin extends Backbone.Model
 
@@ -8,6 +26,8 @@ define ['backbone', 'cs!path', 'cs!app/clearer', 'cs!app/events', 'cs!app/assets
 		initialize: ->
 
 			# load configs
+
+			if typeof @get('title') is 'undefined' then @set 'title', @get('id')[0].toUpperCase() + @get('id').substr(1)
 
 
 			requirejs ["text!plugins/#{@get('id')}/config.json"], (data) =>
@@ -53,14 +73,28 @@ define ['backbone', 'cs!path', 'cs!app/clearer', 'cs!app/events', 'cs!app/assets
 
 					clearer.clear(prepath)
 
-					assets = new Assets(plugin.assets, prepath)
+					assets = new Assets(plugin.assets, prepath, prepath)
 
 					isf = (what, cb) ->
-						if typeof plugin[what] is 'function' then cb(what)
+						if typeof plugin[what] is 'function'
+							cb(what)
+							return true
+						else
+							return false
 
-					isf 'onload', -> assets.onload plugin.onload
-					isf 'render', -> assets.onload plugin.render
-					isf 'before', -> plugin.before()
+					setloads = do (isf, assets, plugin) -> ->
+						isf 'onload', -> assets.onload plugin.onload
+						isf 'render', -> assets.onload plugin.render
+
+					haveBefore = isf 'before', do(setloads, plugin) -> -> plugin.before(setloads)
+
+					if not haveBefore then setloads()
+
+					
+					if plugin.loading
+						loading = new Loading()
+						loading.render()
+						assets.onload loading.remove
 
 					assets.load()
 

@@ -5,31 +5,33 @@
   padding: 0;
   margin: 0; }
   .plugin .items li {
-    color: #fff;
-    background-color: #F9B24F;
+    color: white;
+    background-color: #f9b24f;
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 15px;
     border-width: 1px 0 0 0;
-    list-style-position: inside; }
+    list-style-position: inside;
+    display: flex; }
     .plugin .items li button {
-      color: #fff;
-      background-color: #F9B24F;
+      color: white;
+      background-color: #f9b24f;
       border: 1px solid rgba(0, 0, 0, 0.1);
       float: right;
-      margin-top: -20px;
-      cursor: pointer; }
+      cursor: pointer;
+      flex-grow: 0;
+      margin-left: 77px; }
     .plugin .items li p {
       display: inline-block;
       margin: 0 0 -4px 30px;
       max-width: -webkit-calc(100% - 160px);
       overflow: hidden;
-      text-overflow: ellipsis; }
+      text-overflow: ellipsis;
+      flex-grow: 1;
+      margin: 4px 0; }
     .plugin .items li p:focus {
       outline: 0;
       border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-      margin-bottom: -6px;
-      padding: 0 10px 0 10px;
-      margin-left: 20px; }
+      margin-bottom: -6px; }
   .plugin .items li::before {
     content: "";
     padding: 10px; }
@@ -37,11 +39,11 @@
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px; }
 .plugin .new {
-  border-bottom: 2px solid #E61875;
+  border-bottom: 2px solid #e61875;
   float: right; }
   .plugin .new button {
-    color: #fff;
-    background-color: #F9B24F;
+    color: white;
+    background-color: #f9b24f;
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 15px;
     margin: 0;
@@ -50,5 +52,3 @@
     border-top-right-radius: 2px;
     cursor: pointer;
     outline: 0; }
-
-/*# sourceMappingURL=todo.css.map */

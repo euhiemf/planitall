@@ -12,8 +12,10 @@ define ['jquery', 'backbone', 'cs!plugins/todo/todo-buffer'], ($, Backbone, Buff
 
 
 	render: view.render
-	before: do (element) -> ->
+	before: do (element) -> (done) ->
 		element.hide()
+
+		done()
 		
 	assets:
 		css: 'todo'

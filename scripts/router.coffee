@@ -67,7 +67,8 @@ define dependencies, (req) ->
 
 
 		'gohome': ->
-			@navigate 'home'
+			# @navigate 'home'
+			window.location.hash = 'home'
 
 		'home': ->
 			events.trigger('render:cs!app/front-end/home')

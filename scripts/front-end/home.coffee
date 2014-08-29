@@ -7,7 +7,7 @@ define ['backbone', 'cs!app/clearer'], (Backbone, clearer) ->
 
 		render: ->
 
-			@$el.html('welcome to planitall!')
+			@$el.html('home')
 
 			clearer.add 'clear', @$el, 'plugins'
 

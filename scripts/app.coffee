@@ -11,6 +11,8 @@ dependencies = [
 
 	'cs!app/events'
 
+	'cs!app/loading'
+
 ]
 
 
@@ -22,6 +24,8 @@ define dependencies, (req, exp) ->
 	nav = req 'cs!app/front-end/navigation'
 	router = req 'cs!app/router'
 	events = req 'cs!app/events'
+	Loading = req 'cs!app/loading'
+
 
 
 	pl.on 'eligable-for-nav-render', (model) ->
@@ -37,6 +41,12 @@ define dependencies, (req, exp) ->
 	pl.on 'plugins-loaded', ->
 
 		events.trigger('plugins-loaded')
+
+
+	pl.on 'destroy', (model) ->
+
+		nav.removePluginItem model
+
 
 
 

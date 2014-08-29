@@ -1,6 +1,6 @@
 
 
-define ['backbone', 'jquery'], (Backbone, $) ->
+define ['backbone', 'jquery', 'underscore'], (Backbone, $, _) ->
 
 	class Eventer extends Backbone.Model
 

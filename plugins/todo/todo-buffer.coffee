@@ -74,7 +74,6 @@ define ['jquery', 'backbone', 'cs!plugins/todo/views/item'], ($, Backbone, ItemV
 
 		render: =>
 
-			@$el.show()
 
 			@$el.html """
 			
@@ -84,3 +83,6 @@ define ['jquery', 'backbone', 'cs!plugins/todo/views/item'], ($, Backbone, ItemV
 			"""
 
 			itemsView.render()
+
+			
+			@$el.show()

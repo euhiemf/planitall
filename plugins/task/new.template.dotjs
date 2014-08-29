@@ -1,6 +1,6 @@
 <h2>Add a new task</h2>
 
-<form>
+<form onsubmit="return false;">
 
 	<div class="input-box">
 		<label class='input-title before'>Start from</label>
@@ -17,11 +17,10 @@
 
 	<div class="combo-box">
 		<label class='input-title before'>Type</label>
-		<input class='text' type='text'>
-		<button class='button dateselect after'></button>
+		<input class='text after' type='text'>
 		<ul class='options'>
-			<li class='option'>Read</li>
-			<li class='option'>Study</li>
+			<li class='option'>Foo</li>
+			<li class='option'>Bar</li>
 			<li class='option'>Do</li>
 			<li class='separator'></li>
 			<li class='option'>Add more...</li>

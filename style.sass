@@ -79,7 +79,7 @@ a:hover
 			z-index: 500
 			margin-top: $navigation-padding + 2px
 			margin-left: -$navigation-padding
-			box-shadow: 0 6px 12px rgba(0,0,0,.175)
+			box-shadow: $box-shadow
 
 
 		li.selected.submenual:before
@@ -132,7 +132,7 @@ form
 
 	$input-height: 40px
 
-	.input-box
+	.input-box, .combo-box
 		margin: 10px 0 
 		display: flex
 		justify-content: center
@@ -158,6 +158,10 @@ form
 		.input-title
 			flex-shrink: 0
 
+		.text.after
+			border-right: $border
+			border-bottom-right-radius: $scheme-border-sharpness
+			border-top-right-radius: $scheme-border-sharpness
 
 		.text
 			width: 100%
@@ -186,6 +190,34 @@ form
 
 		.button.dateselect
 			+fa(calendar)
+			max-width: 22px
+
+		.options
+			position: absolute
+			margin: 0
+			margin-top: 40px
+			padding: 0
+			list-style: none
+			box-shadow: $box-shadow
+			li
+				@include item
+				border: 0
+				border-bottom: $border
+				padding: 10px
+
+			li:last-child
+				border-bottom-right-radius: $scheme-border-sharpness
+				border-bottom-left-radius: $scheme-border-sharpness
+
+			li.separator
+				padding: 0
+				margin-bottom: -1px
+				border-top: 1px solid black
+
+			li.option:hover
+				@include linkhover
+
+		
 
 
 

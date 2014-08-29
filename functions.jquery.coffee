@@ -1,60 +1,36 @@
+define ['jquery'], ($) ->
 
-(($)->
+	$.fn.combobox = ->
 
-	$.fn.loading = (enable = true) ->
+		container = @
 
-		if enable
+		options = @find('.options').hide()
 
-			@css('visibility', 'hidden')
+		text = @find('.text')
 
-			offset = @offset()
+		text.on 'click', =>
+			options.show()
+			options.width text.outerWidth()
+			options.css text.offset()
 
-			additional = {}
-
-			if offset.top is 0 then offset.top = window.innerHeight / 2
-			if offset.left is 0
-				offset.left = window.innerWidth / 2
-				additional['margin-left'] = "-45px"
-				additional['margin-top'] = "0"
-
-
-			styleJSON =
-				'position': 'absolute'
-				'top': "#{offset.top}px"
-				'left': "#{offset.left}px"
-				'width': "#{@outerWidth()}px"
-				'height': "#{@outerHeight()}px"
-				'z-index': '100'
-				'text-align': 'center'
-				'display': 'table'
-
-			_.extend styleJSON, additional
-
-			style = ""
+			$(document).on 'click', (ev) =>
+				if not $.contains(@[0], ev.target) then options.hide()
 
 
-			for key, val of styleJSON
-				style += "#{key}: #{val}; "
+		options.find('.option').on 'click', ->
+			val = $(@).text()
+			text.val val
 
-			element = $ """
-
-				<div style="#{style}" class='loading-overlay'>
-					<p style='display: table-cell'>
-						Loading...
-					</p>
-				</div>
-
-			"""
-			$(document.body).append element
-
-			app.clearer.add('remove', 'html', element)
-
-		else
-
-			$('.loading-overlay').remove()
-			@css('visibility', 'visible')
+			container.trigger('select', val)
 
 
-		return @
+			options.hide()
 
-)(jQuery)
+
+
+
+
+
+
+	return $
+

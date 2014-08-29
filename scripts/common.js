@@ -16,7 +16,8 @@
       'backbone-private': 'no-conflict/backbone/nc',
       'underscore-private': 'no-conflict/underscore/nc',
       'app': '../scripts',
-      'plugins': '../plugins'
+      'plugins': '../plugins',
+      'root': '../'
     },
     map: {
       '*': {
@@ -49,11 +50,17 @@
     }
   });
 
-  requirejs(['backbone', 'cs!app/app', 'cs!app/events'], function(Backbone, app, events) {
-    events.on('plugins-loaded', function() {
-      return Backbone.history.start();
+  requirejs(['cs!app/loading', 'require'], function(Loading, req) {
+    var preLoading;
+    preLoading = new Loading();
+    preLoading.render();
+    return req(['cs!root/functions.jquery', 'backbone', 'cs!app/app', 'cs!app/events'], function($, Backbone, app, events) {
+      events.on('plugins-loaded', function() {
+        Backbone.history.start();
+        return preLoading.remove();
+      });
+      return events.trigger('instantialized');
     });
-    return events.trigger('instantialized');
   });
 
 }).call(this);

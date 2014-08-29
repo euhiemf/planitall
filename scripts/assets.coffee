@@ -1,13 +1,39 @@
+
+
+### /Syntax/
+
+assets = new Assets { css: 'plugins/calendar/calendar' }, 'plugins/task/new'
+
+assets.onload =>
+	
+	// Render the html...
+
+
+assets.load()
+
+
+
+###
+
+
 define ['jquery', 'cs!app/clearer'], ($, clearer) ->
 
 	class Assets
 
-		constructor: (@items, @domain)->
+		callbacks: []
+
+		constructor: (@items, @domain, @prepath)->
 			@
-		onload: (@callback) ->
-			@
+		onload: (callback) ->
+
+			@callbacks.push(callback)
 
 
+
+		callback: =>
+
+			for cb in @callbacks
+				cb()
 
 
 		load: ->
@@ -22,7 +48,8 @@ define ['jquery', 'cs!app/clearer'], ($, clearer) ->
 
 
 
-			@callback()
+			setTimeout @callback, 500
+			# @callback()
 
 		loop: (fn, paths) ->
 
@@ -42,8 +69,11 @@ define ['jquery', 'cs!app/clearer'], ($, clearer) ->
 
 		loadCss: (path, callback) =>
 
+			console.log path
 
-			requirejs ["text!#{@domain}/#{path}.css"], do (callback) => (content) =>
+			if typeof @prepath is 'undefined' then address = "text!#{path}.css" else address = "text!#{@prepath}/#{path}.css"
+
+			requirejs [address], do (callback) => (content) =>
 
 				blob = new Blob [content], 
 					type: 'text/css'

@@ -28,7 +28,7 @@
 					{{ if (tile.attributes.month > it.month) type += ' next disabled'; }}
 					<div class='{{= type }}'>
 
-						<span class='value'>
+						<span class='value' data-stamp='{{= tile.attributes.stamp }}' data-month='{{= tile.attributes.month }}' data-day='{{= tile.value }}'>
 
 							{{= tile.value }}
 

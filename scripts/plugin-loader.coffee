@@ -13,6 +13,7 @@ define ['backbone', 'localstorage', 'cs!app/plugin'], (Backbone, LocalStorage, P
 			@loadedPlugins = 0
 			@numberOfPlugins = 0
 
+
 			@on 'add', (model) =>
 
 				model.once 'config-loaded', (model) =>

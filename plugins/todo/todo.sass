@@ -20,16 +20,17 @@
 			border-width: 1px 0 0 0
 
 			list-style-position: inside
+			display: flex
 
 			// text-indent: -40px
 
 			button
 				@include item
 				float: right
-				margin-top: -20px
 				cursor: pointer
+				flex-grow: 0
+				margin-left: 77px
 
-			
 			$margin-from-index: 30px
 
 			p
@@ -38,6 +39,8 @@
 				max-width: -webkit-calc(100% - 160px)
 				overflow: hidden
 				text-overflow: ellipsis
+				flex-grow: 1
+				margin: 4px 0
 
 		
 
@@ -48,8 +51,8 @@
 				margin-bottom: -$width - 4px
 
 				$padding: 10px
-				padding: 0 $padding 0 $padding
-				margin-left: $margin-from-index - $padding
+				// padding: 0 $padding 0 $paddingh
+				// margin-left: $margin-from-index - $padding
 
 
 		li::before

@@ -1551,6 +1551,14 @@
 .fa-bomb:before {
   content: "\f1e2"; }
 
+.calendar-imported {
+  position: absolute;
+  visibility: hidden;
+  background: white;
+  padding: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  border: 1px solid rgba(0, 0, 0, 0.1); }
+
 .calendar {
   border-radius: 2px;
   display: block;

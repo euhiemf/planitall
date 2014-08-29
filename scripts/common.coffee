@@ -27,6 +27,7 @@ requirejs.config
 
 		'app': '../scripts'
 		'plugins': '../plugins'
+		'root': '../'
 
 
 
@@ -58,14 +59,22 @@ requirejs.config
 
 
 
+requirejs ['cs!app/loading', 'require'], (Loading, req) ->
 
-requirejs ['backbone', 'cs!app/app', 'cs!app/events'], (Backbone, app, events) ->
+	preLoading = new Loading()
+	preLoading.render()
 
+	req ['cs!root/functions.jquery', 'backbone', 'cs!app/app', 'cs!app/events'], ($, Backbone, app, events) ->
 
 		events.on 'plugins-loaded', ->
 			Backbone.history.start()
+			preLoading.remove()
+
+		events.trigger('instantialized')
+	
+
+
 
 
 		
-		events.trigger('instantialized')
 
